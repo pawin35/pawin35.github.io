@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Punnaphoj Aeuepalisa — Backend Engineer &amp; Accessibility Auditor</title>
+<meta name="description" content="Backend software engineer (Golang, Node.js) and WCAG 2.2 accessibility auditor who is blind and uses the NVDA screen reader full-time. Open to full-time, contract, and freelance roles.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --text: #1a1a1a;
+    --bg: #ffffff;
+    --accent: #0b5394;
+    --border: #d0d0d0;
+    --card: #f5f7fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: #e8e8e8;
+      --bg: #121212;
+      --accent: #7db8e8;
+      --border: #3a3a3a;
+      --card: #1e2530;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0 auto;
+    max-width: 46rem;
+    padding: 1rem 1.25rem 3rem;
+    font-size: 1.06rem;
+  }
+  h1 { font-size: 1.9rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.45rem; margin-top: 2.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .tagline { font-size: 1.2rem; margin-top: 0; }
+  .contact-list { list-style: none; padding: 0; }
+  .contact-list li { margin: 0.3rem 0; }
+  .offer {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+  .offer h3 { margin-top: 0; }
+  .meta { font-style: normal; color: inherit; opacity: 0.85; font-size: 0.95rem; }
+  ul { padding-left: 1.4rem; }
+  li { margin: 0.35rem 0; }
+  .skip-link {
+    position: absolute; left: -9999px;
+  }
+  .skip-link:focus {
+    position: static; display: inline-block; padding: 0.5rem; background: var(--accent); color: var(--bg);
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header>
+  <h1>Punnaphoj Aeuepalisa</h1>
+  <p class="tagline">Backend software engineer &amp; WCAG 2.2 accessibility auditor — Bangkok, Thailand (UTC+7), working in English.</p>
+  <p>I'm blind and navigate the web with the NVDA screen reader every day. That gives me two professional edges: I build backend systems where correctness is verified by tests and logs rather than eyeballs, and I audit websites by reporting what <em>actually happens</em> for assistive-technology users — not just what automated scanners flag.</p>
+  <ul class="contact-list" aria-label="Contact">
+    <li>Email: <a href="mailto:punnaphoj.a@gmail.com">punnaphoj.a@gmail.com</a></li>
+    <li>LinkedIn: <a href="https://www.linkedin.com/in/punnaphoj/">linkedin.com/in/punnaphoj</a></li>
+  </ul>
+</header>
+
+<main id="main">
+
+<section aria-labelledby="hire">
+  <h2 id="hire">Hire me: backend developer / software engineer</h2>
+  <p>Open to <strong>full-time, contract, and freelance</strong> roles — remote-first, backend-focused (Golang, Node.js/TypeScript, Python).</p>
+
+  <h3>Experience</h3>
+  <h4>LINE MAN Wongnai — Software Engineer (July 2024 – June 2026)</h4>
+  <ul>
+    <li>Spearheaded the migration of a legacy Odoo ordering pipeline to a modern Golang backend handling 10,000+ monthly transactions, cutting maintenance turnaround from weeks to days.</li>
+    <li>Engineered core financial modules (invoices, credit notes, tax receipts) for the internal ERP with zero tolerance for calculation drift.</li>
+    <li>Diagnosed a critical intermittent order-duplication bug affecting customer credit data by cross-referencing logs across distributed services, tracing it to a silent idempotency failure in a misconfigured DB context lifecycle.</li>
+    <li>Championed resilience and observability across event-driven architectures: metrics, distributed tracing, and automated Playwright/Jest suites.</li>
+  </ul>
+
+  <h4>Vulcan Coalition — Software Engineer (January 2021 – June 2024)</h4>
+  <ul>
+    <li>Architected and led delivery of a custom CRM for call-center agents with disabilities, unlocking a major new B2B revenue stream for the company as an inclusive workforce provider.</li>
+    <li>Engineered an accessible frontend optimized for NVDA and 100% keyboard-only navigation, with ARIA that conveys real-time system state.</li>
+    <li>Ran user-testing sessions directly with blind, low-vision, and mobility-impaired user groups to eliminate accessibility blockers.</li>
+    <li>Designed and launched a job-matching platform that placed 500+ persons with disabilities into sustainable employment.</li>
+  </ul>
+
+  <h4>Earlier</h4>
+  <ul>
+    <li><strong>NECTEC</strong> (2020): high-performance subtitle diffing utility in Golang for automated QA pipelines.</li>
+    <li><strong>JAIST, Japan</strong> (2019, research internship): dynamic malware-analysis framework in Python/Radare2 achieving 93.2% packer identification.</li>
+  </ul>
+
+  <h3>Education</h3>
+  <p>Bachelor of Engineering in Computer Engineering, <strong>First-Class Honors</strong>, Chulalongkorn University (2016–2020). Thesis: static code analysis with ASTs to evaluate algorithmic complexity and detect structural code smells.</p>
+
+  <h3>Core skills</h3>
+  <ul>
+    <li><strong>Languages:</strong> Golang, JavaScript/TypeScript, Python, Rust, Java, C/C++</li>
+    <li><strong>Backend:</strong> gRPC, microservices, event-driven systems (Kafka, RabbitMQ), idempotency design, Echo, Gin, NodeJS, FastAPI</li>
+    <li><strong>Infrastructure:</strong> Docker, Kubernetes, Helm, Terraform, CI/CD (GitHub Actions, GitLab CI), AWS, GCP</li>
+    <li><strong>Observability:</strong> distributed tracing, cross-service log aggregation, metrics, Sentry</li>
+    <li><strong>Testing:</strong> Playwright, Jest, automated regression suites</li>
+    <li><strong>AI-assisted development:</strong> agentic AI systems and LLM orchestration to accelerate delivery</li>
+  </ul>
+</section>
+
+<section aria-labelledby="audits">
+  <h2 id="audits">Accessibility audits: WCAG 2.2 by a real screen-reader user</h2>
+  <p>Automated scanners catch at most a third of accessibility barriers. I find the rest the only way it can be done — by using your site the way your assistive-technology users do, with NVDA, every day of my life. Every finding in my reports pairs the offending code with a plain-language narrative of what a screen reader user actually experiences, plus a concrete fix.</p>
+  <p>For web agencies: I white-label. Your clients get a professional WCAG 2.2 audit under your brand, backed by lived expertise you can't hire easily anywhere.</p>
+
+  <div class="offer">
+    <h3>Starter audit — US$400</h3>
+    <ul>
+      <li>Up to 5 pages of your (or your client's) site</li>
+      <li>WCAG 2.2 Level A and AA, every finding manually verified with NVDA</li>
+      <li>Automated axe-core scan included as corroboration — never as a substitute</li>
+      <li>Written report with code snippets, severity ratings, and concrete remediation steps</li>
+      <li>7-day turnaround · payment via Wise or PayPal</li>
+    </ul>
+    <p><a href="mailto:punnaphoj.a@gmail.com?subject=Starter%20audit">Email me to book a starter audit</a></p>
+  </div>
+
+  <p id="sample-report-slot"><strong>Sample report:</strong> coming shortly — a full audit of the W3C's deliberately inaccessible demo site, showing the exact format and depth you'd receive.</p>
+</section>
+
+</main>
+
+<footer>
+  <p class="meta">Punnaphoj Aeuepalisa · Bangkok, Thailand · <a href="mailto:punnaphoj.a@gmail.com">punnaphoj.a@gmail.com</a> · <a href="https://www.linkedin.com/in/punnaphoj/">LinkedIn</a></p>
+</footer>
+</body>
+</html>
