@@ -1820,19 +1820,19 @@
         }
       },
 
-      /* Re-hear / Re-announce Question (0 focus movement, question prompt only) */
+      /* Re-hear / Re-announce Question (0 focus movement, includes instruction command) */
       reannounceQuestion() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const target = this.currentQuestion.target;
         const qType = this.currentQuestion.type;
 
-        let text = `ข้อ ${this.currentIndex + 1}: `;
+        let text = `ข้อ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
         if (qType === 'eng_to_th') {
-          text += `${target.word}, ${target.pos_raw}`;
+          text += `เลือกความหมายภาษาไทยที่ถูกต้องสำหรับคำนี้: ${target.word}, ประเภทคำ: ${target.pos_raw}`;
         } else if (qType === 'th_to_eng') {
-          text += `${target.meaning}, ${target.pos_raw}`;
+          text += `เลือกคำศัพท์ภาษาอังกฤษที่ตรงกับความหมายนี้: ${target.meaning}, ประเภทคำ: ${target.pos_raw}`;
         } else {
-          text += `ฟังเสียงอ่านคำศัพท์`;
+          text += `ฟังเสียงอ่าน แล้วเลือกคำศัพท์ภาษาอังกฤษที่ถูกต้อง: คำอ่าน: ${target.reading}`;
         }
 
         Announcer.speak(text, 'assertive');
