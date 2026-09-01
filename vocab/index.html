@@ -545,19 +545,19 @@
         <div class="flex items-center justify-center gap-2 sm:gap-3 pt-2 flex-wrap">
           
           <!-- Re-read Question Button -->
-          <button id="btn-quiz-reannounce" type="button" accesskey="q" onclick="Quiz.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์ซ้ำ">
+          <button id="btn-quiz-reannounce" type="button" onclick="Quiz.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์ซ้ำ">
             <span aria-hidden="true">📢</span>
             <span>อ่านโจทย์ซ้ำ</span>
           </button>
 
           <!-- Audio Pronunciation Button (Hidden in th_to_eng to prevent answer spoiler) -->
-          <button id="btn-quiz-speak" type="button" accesskey="r" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่าน">
+          <button id="btn-quiz-speak" type="button" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่าน">
             <span id="quiz-speak-icon" class="text-base" aria-hidden="true">🔊</span>
             <span id="quiz-speak-label">ฟังเสียงอ่าน</span>
           </button>
 
           <!-- Hint Button -->
-          <button id="btn-quiz-hint" type="button" accesskey="h" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้">
+          <button id="btn-quiz-hint" type="button" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้">
             <span aria-hidden="true">💡</span>
             <span>คำใบ้</span>
           </button>
@@ -590,7 +590,7 @@
             </div>
           </div>
           
-          <button id="btn-quiz-next" type="button" accesskey="n" onclick="Quiz.nextQuestion()" class="px-5 py-2.5 rounded-xl bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center gap-1.5 flex-shrink-0" aria-label="ไปข้อถัดไป">
+          <button id="btn-quiz-next" type="button" onclick="Quiz.nextQuestion()" class="px-5 py-2.5 rounded-xl bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center gap-1.5 flex-shrink-0" aria-label="ไปข้อถัดไป">
             <span>ข้อถัดไป</span>
             <span aria-hidden="true">➔</span>
           </button>
@@ -1523,7 +1523,7 @@
     };
 
     /* =========================================================================
-       5. QUIZ ENGINE (FOCUS PRESERVATION, CLEAN LABELS, ARROW KEYS & ACCESSKEYS)
+       5. QUIZ ENGINE (ZERO FOCUS THEFT, ARROW KEYS & DIRECT SHORTCUTS)
        ========================================================================= */
     const Quiz = {
       tier: 'A1',
@@ -1739,17 +1739,15 @@
         options.sort(() => 0.5 - Math.random());
         this.currentQuestion.options = options;
 
-        // Render Option Buttons
+        // Render Option Buttons (No accesskey to prevent focus jumping)
         const optionsContainer = document.getElementById('quiz-options-container');
         optionsContainer.innerHTML = '';
-        const optionKeys = ['1', '2', '3', '4'];
         const optionLetters = ['A', 'B', 'C', 'D'];
 
         options.forEach((opt, idx) => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.id = `quiz-opt-${idx}`;
-          btn.setAttribute('accesskey', optionKeys[idx]);
           btn.className = `game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-indigo-500 text-white font-medium text-left flex items-center justify-between gap-3 shadow-lg focus:outline-none transition-all`;
           btn.setAttribute('role', 'radio');
           btn.setAttribute('aria-checked', idx === 0 ? 'true' : 'false');
@@ -1822,19 +1820,7 @@
         }
       },
 
-      /* Restore focus to the current option in choice group */
-      restoreOptionFocus() {
-        if (App.currentView === 'quiz' && !this.answered) {
-          setTimeout(() => {
-            const currentOpt = document.getElementById(`quiz-opt-${this.focusedOptionIndex}`);
-            if (currentOpt) {
-              currentOpt.focus();
-            }
-          }, 40);
-        }
-      },
-
-      /* Re-hear / Re-announce Question */
+      /* Re-hear / Re-announce Question (0 focus movement!) */
       reannounceQuestion() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const target = this.currentQuestion.target;
@@ -1860,9 +1846,6 @@
         if (qType === 'eng_to_th' || qType === 'listening') {
           setTimeout(() => AudioSys.speakWord(target.word), 400);
         }
-
-        // Keep focus on the active choice so user never loses position!
-        this.restoreOptionFocus();
       },
 
       handleAnswer(selectedIndex) {
@@ -1952,19 +1935,18 @@
         this.renderQuestion();
       },
 
-      /* Speak target word */
+      /* Speak target word (0 focus movement) */
       speakCurrentWord() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const qType = this.currentQuestion.type;
         if (qType === 'th_to_eng' && !this.answered) {
           Announcer.speak('โหมดความหมายภาษาไทย ฟังเสียงอ่านได้หลังตอบ');
-          this.restoreOptionFocus();
           return;
         }
         AudioSys.speakWord(this.currentQuestion.target.word);
-        this.restoreOptionFocus();
       },
 
+      /* Toggle hint (0 focus movement) */
       toggleHint() {
         const hintBox = document.getElementById('quiz-hint-box');
         const hintText = document.getElementById('quiz-hint-text');
@@ -1978,7 +1960,6 @@
         } else {
           hintBox.style.display = 'none';
         }
-        this.restoreOptionFocus();
       },
 
       showSummary() {
@@ -2448,7 +2429,7 @@
     };
 
     /* =========================================================================
-       10. APP LIFECYCLE & VIEW ROUTER & KEYBOARD SHORTCUTS
+       10. APP LIFECYCLE & VIEW ROUTER & DIRECT KEYBOARD CONSUMER (ZERO FOCUS MOVEMENT)
        ========================================================================= */
     const App = {
       currentView: 'home',
@@ -2580,9 +2561,10 @@
         });
       },
 
+      /* Direct keyboard consumption: Never moves DOM focus */
       bindKeyboardShortcuts() {
         window.addEventListener('keydown', (e) => {
-          // Ignore typing in text inputs or when modal is open
+          // Ignore typing in input fields
           if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
           if (Quiz.isModalOpen) return;
 
@@ -2590,47 +2572,67 @@
           if (this.currentView === 'quiz' && document.getElementById('view-quiz').style.display !== 'none') {
             const keyLower = e.key.toLowerCase();
 
-            // 1-4 or A-D: Choose option directly
+            // Q or Alt+Q or Ctrl+Q: Re-read question (Zero focus movement)
+            if (keyLower === 'q') {
+              e.preventDefault();
+              e.stopPropagation();
+              Quiz.reannounceQuestion();
+              return;
+            }
+
+            // R or Alt+R or Ctrl+R: Play English pronunciation (Zero focus movement)
+            if (keyLower === 'r' && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              Quiz.speakCurrentWord();
+              return;
+            }
+
+            // H or Alt+H: Toggle hint (Zero focus movement)
+            if (keyLower === 'h') {
+              e.preventDefault();
+              e.stopPropagation();
+              Quiz.toggleHint();
+              return;
+            }
+
+            // 1-4 or Alt+1..4: Choose option directly
             if (['1', '2', '3', '4'].includes(e.key)) {
               e.preventDefault();
+              e.stopPropagation();
               const idx = parseInt(e.key) - 1;
               Quiz.handleAnswer(idx);
               return;
-            } else if (['a', 'b', 'c', 'd'].includes(keyLower)) {
+            }
+
+            // A-D: Choose option directly (when not holding Ctrl/Alt)
+            if (['a', 'b', 'c', 'd'].includes(keyLower) && !e.ctrlKey && !e.altKey) {
               e.preventDefault();
+              e.stopPropagation();
               const map = { a: 0, b: 1, c: 2, d: 3 };
               Quiz.handleAnswer(map[keyLower]);
               return;
             }
 
-            // Q: Re-read Question & choices
-            if (keyLower === 'q') {
-              e.preventDefault();
-              Quiz.reannounceQuestion();
-              return;
-            }
-
-            // R: Play English pronunciation
-            if (keyLower === 'r') {
-              e.preventDefault();
-              Quiz.speakCurrentWord();
-              return;
-            }
-
-            // H: Toggle hint
-            if (keyLower === 'h') {
-              e.preventDefault();
-              Quiz.toggleHint();
-              return;
-            }
-
-            // Enter: Next question if answered
-            if (e.key === 'Enter') {
-              if (Quiz.answered) {
+            // Space: Submit currently focused option if not answered
+            if (e.key === ' ' && !Quiz.answered) {
+              if (document.activeElement && document.activeElement.getAttribute('role') === 'radio') {
                 e.preventDefault();
-                Quiz.nextQuestion();
+                Quiz.handleAnswer(Quiz.focusedOptionIndex);
                 return;
               }
+            }
+
+            // Enter: Next question if answered, or submit current choice if not answered
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              e.stopPropagation();
+              if (Quiz.answered) {
+                Quiz.nextQuestion();
+              } else {
+                Quiz.handleAnswer(Quiz.focusedOptionIndex);
+              }
+              return;
             }
 
             // Escape: Exit quiz
@@ -2649,7 +2651,7 @@
               if (btn) btn.click();
             }
           }
-        });
+        }, true);
       }
     };
 
