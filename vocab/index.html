@@ -557,7 +557,7 @@
           </button>
 
           <!-- Hint Button -->
-          <button id="btn-quiz-hint" type="button" accesskey="h" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้">
+          <button id="btn-quiz-hint" type="button" accesskey="h" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้">
             <span aria-hidden="true">💡</span>
             <span>คำใบ้</span>
           </button>
@@ -1107,7 +1107,6 @@
     const Announcer = {
       politeEl: null,
       assertiveEl: null,
-      nonce: 0,
 
       init() {
         this.politeEl = document.getElementById('sr-announcer-polite');
@@ -1117,7 +1116,6 @@
       speak(text, priority = 'assertive') {
         const el = priority === 'assertive' ? this.assertiveEl : this.politeEl;
         if (!el) return;
-        this.nonce += 1;
         el.textContent = '';
         setTimeout(() => {
           el.textContent = text;
@@ -1442,7 +1440,7 @@
         const idx = this.state.bookmarks.indexOf(wordId);
         if (idx > -1) {
           this.state.bookmarks.splice(idx, 1);
-          Announcer.speak('ยกเลิกติดดาวคำศัพท์แล้ว');
+          Announcer.speak('ยกเลิกติดดาวแล้ว');
         } else {
           this.state.bookmarks.push(wordId);
           Announcer.speak('ติดดาวคำศัพท์แล้ว');
@@ -1504,7 +1502,7 @@
               this.applySettings();
               App.updateHeaderStats();
               alert(`กู้คืนข้อมูลสำเร็จ! ยินดีต้อนรับกลับ ${this.state.user.name}`);
-              Announcer.speak('นำเข้าข้อมูลสำรองสำเร็จแล้ว');
+              Announcer.speak('นำเข้าข้อมูลสำเร็จ');
               App.navigate('home');
             } else {
               alert('รูปแบบไฟล์ข้อมูลสำรองไม่ถูกต้อง');
@@ -1525,7 +1523,7 @@
     };
 
     /* =========================================================================
-       5. QUIZ ENGINE (CLEAN LABELS, ANTI-SPOILER, ARROW KEYS & ACCESSKEYS)
+       5. QUIZ ENGINE (FOCUS PRESERVATION, CLEAN LABELS, ARROW KEYS & ACCESSKEYS)
        ========================================================================= */
     const Quiz = {
       tier: 'A1',
@@ -1711,7 +1709,6 @@
           readingEl.textContent = `ประเภทคำ: ${target.pos_raw}`;
           ipaEl.textContent = '';
           phoneticsEl.style.display = 'flex';
-          // In th_to_eng, HIDE speech button during question to avoid spoiling the answer!
           speakBtn.style.display = 'none';
         } else {
           // Listening Mode
@@ -1742,7 +1739,7 @@
         options.sort(() => 0.5 - Math.random());
         this.currentQuestion.options = options;
 
-        // Render Option Buttons with clean labels and accesskeys
+        // Render Option Buttons
         const optionsContainer = document.getElementById('quiz-options-container');
         optionsContainer.innerHTML = '';
         const optionKeys = ['1', '2', '3', '4'];
@@ -1757,7 +1754,6 @@
           btn.setAttribute('role', 'radio');
           btn.setAttribute('aria-checked', idx === 0 ? 'true' : 'false');
           btn.tabIndex = idx === 0 ? 0 : -1;
-          // Clean label: Option letter + text (no verbose boilerplate)
           btn.setAttribute('aria-label', `${optionLetters[idx]}. ${opt.text}`);
           
           btn.innerHTML = `
@@ -1768,6 +1764,17 @@
           `;
 
           btn.onclick = () => this.handleAnswer(idx);
+
+          btn.onfocus = () => {
+            Quiz.focusedOptionIndex = idx;
+            for (let i = 0; i < 4; i++) {
+              const b = document.getElementById(`quiz-opt-${i}`);
+              if (b) {
+                b.tabIndex = (i === idx) ? 0 : -1;
+                b.setAttribute('aria-checked', (i === idx) ? 'true' : 'false');
+              }
+            }
+          };
 
           // Arrow Key Navigation between Radios
           btn.onkeydown = (e) => {
@@ -1815,6 +1822,18 @@
         }
       },
 
+      /* Restore focus to the current option in choice group */
+      restoreOptionFocus() {
+        if (App.currentView === 'quiz' && !this.answered) {
+          setTimeout(() => {
+            const currentOpt = document.getElementById(`quiz-opt-${this.focusedOptionIndex}`);
+            if (currentOpt) {
+              currentOpt.focus();
+            }
+          }, 40);
+        }
+      },
+
       /* Re-hear / Re-announce Question */
       reannounceQuestion() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
@@ -1841,6 +1860,9 @@
         if (qType === 'eng_to_th' || qType === 'listening') {
           setTimeout(() => AudioSys.speakWord(target.word), 400);
         }
+
+        // Keep focus on the active choice so user never loses position!
+        this.restoreOptionFocus();
       },
 
       handleAnswer(selectedIndex) {
@@ -1936,9 +1958,11 @@
         const qType = this.currentQuestion.type;
         if (qType === 'th_to_eng' && !this.answered) {
           Announcer.speak('โหมดความหมายภาษาไทย ฟังเสียงอ่านได้หลังตอบ');
+          this.restoreOptionFocus();
           return;
         }
         AudioSys.speakWord(this.currentQuestion.target.word);
+        this.restoreOptionFocus();
       },
 
       toggleHint() {
@@ -1954,6 +1978,7 @@
         } else {
           hintBox.style.display = 'none';
         }
+        this.restoreOptionFocus();
       },
 
       showSummary() {
