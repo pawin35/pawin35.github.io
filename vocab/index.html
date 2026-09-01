@@ -1119,7 +1119,7 @@
         el.textContent = '';
         setTimeout(() => {
           el.textContent = text;
-        }, 40);
+        }, 30);
       }
     };
 
@@ -1776,10 +1776,10 @@
 
           // Arrow Key Navigation between Radios
           btn.onkeydown = (e) => {
-            if (['ArrowDown', 'ArrowRight'].includes(e.key)) {
+            if (['ArrowDown', 'ArrowRight'].includes(e.key) || e.code === 'ArrowDown' || e.code === 'ArrowRight') {
               e.preventDefault();
               Quiz.focusOption((idx + 1) % 4);
-            } else if (['ArrowUp', 'ArrowLeft'].includes(e.key)) {
+            } else if (['ArrowUp', 'ArrowLeft'].includes(e.key) || e.code === 'ArrowUp' || e.code === 'ArrowLeft') {
               e.preventDefault();
               Quiz.focusOption((idx + 3) % 4);
             }
@@ -2429,7 +2429,7 @@
     };
 
     /* =========================================================================
-       10. APP LIFECYCLE & VIEW ROUTER & DIRECT KEYBOARD CONSUMER (ZERO FOCUS MOVEMENT)
+       10. APP LIFECYCLE & VIEW ROUTER & UNIVERSAL DIRECT KEYBOARD CONSUMER
        ========================================================================= */
     const App = {
       currentView: 'home',
@@ -2491,6 +2491,7 @@
       },
 
       showView(viewName) {
+        this.currentView = viewName;
         const views = ['home', 'quiz', 'summary', 'speed-setup', 'speed-play', 'mistakes', 'dict', 'settings'];
         views.forEach(v => {
           const el = document.getElementById(`view-${v}`);
@@ -2561,70 +2562,96 @@
         });
       },
 
-      /* Direct keyboard consumption: Never moves DOM focus */
+      /* Universal Direct Key Consumer: Works in English & Thai keyboard layouts with 0 Focus Movement */
       bindKeyboardShortcuts() {
         window.addEventListener('keydown', (e) => {
           // Ignore typing in input fields
           if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
           if (Quiz.isModalOpen) return;
 
-          // In Quiz Arena
-          if (this.currentView === 'quiz' && document.getElementById('view-quiz').style.display !== 'none') {
-            const keyLower = e.key.toLowerCase();
+          const keyLower = (e.key || '').toLowerCase();
+          const code = e.code || '';
+          const keyCode = e.keyCode || e.which || 0;
 
-            // Q or Alt+Q or Ctrl+Q: Re-read question (Zero focus movement)
-            if (keyLower === 'q') {
+          // In Quiz Arena
+          const isQuizVisible = document.getElementById('view-quiz') && document.getElementById('view-quiz').style.display !== 'none';
+          if (isQuizVisible) {
+
+            // Universal Q / Re-read detection (English Q, Thai ๐ / ๆ, KeyQ, keyCode 81)
+            const isQ = code === 'KeyQ' || keyCode === 81 || keyLower === 'q' || keyLower === '๐' || keyLower === 'ๆ';
+            if (isQ) {
               e.preventDefault();
               e.stopPropagation();
               Quiz.reannounceQuestion();
               return;
             }
 
-            // R or Alt+R or Ctrl+R: Play English pronunciation (Zero focus movement)
-            if (keyLower === 'r' && !e.ctrlKey) {
+            // Universal R / Speak detection (English R, Thai พ, KeyR, keyCode 82)
+            const isR = (code === 'KeyR' || keyCode === 82 || keyLower === 'r' || keyLower === 'พ') && !e.ctrlKey;
+            if (isR) {
               e.preventDefault();
               e.stopPropagation();
               Quiz.speakCurrentWord();
               return;
             }
 
-            // H or Alt+H: Toggle hint (Zero focus movement)
-            if (keyLower === 'h') {
+            // Universal H / Hint detection (English H, Thai ้, KeyH, keyCode 72)
+            const isH = code === 'KeyH' || keyCode === 72 || keyLower === 'h' || keyLower === '้';
+            if (isH) {
               e.preventDefault();
               e.stopPropagation();
               Quiz.toggleHint();
               return;
             }
 
-            // 1-4 or Alt+1..4: Choose option directly
-            if (['1', '2', '3', '4'].includes(e.key)) {
+            // Universal Option 1 (Digit1, Numpad1, KeyA, Thai ๅ, keyCode 49/97/65)
+            const is1 = code === 'Digit1' || code === 'Numpad1' || keyCode === 49 || keyCode === 97 || e.key === '1' || e.key === 'ๅ' || (!e.altKey && !e.ctrlKey && (keyLower === 'a' || code === 'KeyA' || keyCode === 65));
+            if (is1 && !e.ctrlKey) {
               e.preventDefault();
               e.stopPropagation();
-              const idx = parseInt(e.key) - 1;
-              Quiz.handleAnswer(idx);
+              Quiz.handleAnswer(0);
               return;
             }
 
-            // A-D: Choose option directly (when not holding Ctrl/Alt)
-            if (['a', 'b', 'c', 'd'].includes(keyLower) && !e.ctrlKey && !e.altKey) {
+            // Universal Option 2 (Digit2, Numpad2, KeyB, Thai /, keyCode 50/98/66)
+            const is2 = code === 'Digit2' || code === 'Numpad2' || keyCode === 50 || keyCode === 98 || e.key === '2' || e.key === '/' || (!e.altKey && !e.ctrlKey && (keyLower === 'b' || code === 'KeyB' || keyCode === 66));
+            if (is2 && !e.ctrlKey) {
               e.preventDefault();
               e.stopPropagation();
-              const map = { a: 0, b: 1, c: 2, d: 3 };
-              Quiz.handleAnswer(map[keyLower]);
+              Quiz.handleAnswer(1);
+              return;
+            }
+
+            // Universal Option 3 (Digit3, Numpad3, KeyC, Thai -, keyCode 51/99/67)
+            const is3 = code === 'Digit3' || code === 'Numpad3' || keyCode === 51 || keyCode === 99 || e.key === '3' || e.key === '-' || (!e.altKey && !e.ctrlKey && (keyLower === 'c' || code === 'KeyC' || keyCode === 67));
+            if (is3 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              Quiz.handleAnswer(2);
+              return;
+            }
+
+            // Universal Option 4 (Digit4, Numpad4, KeyD, Thai ภ, keyCode 52/100/68)
+            const is4 = code === 'Digit4' || code === 'Numpad4' || keyCode === 52 || keyCode === 100 || e.key === '4' || e.key === 'ภ' || (!e.altKey && !e.ctrlKey && (keyLower === 'd' || code === 'KeyD' || keyCode === 68));
+            if (is4 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              Quiz.handleAnswer(3);
               return;
             }
 
             // Space: Submit currently focused option if not answered
-            if (e.key === ' ' && !Quiz.answered) {
+            if ((e.key === ' ' || code === 'Space' || keyCode === 32) && !Quiz.answered) {
               if (document.activeElement && document.activeElement.getAttribute('role') === 'radio') {
                 e.preventDefault();
+                e.stopPropagation();
                 Quiz.handleAnswer(Quiz.focusedOptionIndex);
                 return;
               }
             }
 
             // Enter: Next question if answered, or submit current choice if not answered
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' || code === 'Enter' || keyCode === 13) {
               e.preventDefault();
               e.stopPropagation();
               if (Quiz.answered) {
@@ -2636,18 +2663,22 @@
             }
 
             // Escape: Exit quiz
-            if (e.key === 'Escape') {
+            if (e.key === 'Escape' || code === 'Escape' || keyCode === 27) {
               e.preventDefault();
+              e.stopPropagation();
               Quiz.exitQuiz();
               return;
             }
           }
 
           // In Speed Run
-          if (document.getElementById('view-speed-play').style.display !== 'none') {
-            if (['1', '2', '3', '4'].includes(e.key)) {
+          const isSpeedPlayVisible = document.getElementById('view-speed-play') && document.getElementById('view-speed-play').style.display !== 'none';
+          if (isSpeedPlayVisible) {
+            if (['1', '2', '3', '4'].includes(e.key) || ['Digit1', 'Digit2', 'Digit3', 'Digit4'].includes(code)) {
               e.preventDefault();
-              const btn = document.querySelectorAll('#speed-options-container button')[parseInt(e.key) - 1];
+              e.stopPropagation();
+              const num = parseInt(e.key) || (parseInt(code.replace('Digit', '')));
+              const btn = document.querySelectorAll('#speed-options-container button')[num - 1];
               if (btn) btn.click();
             }
           }
