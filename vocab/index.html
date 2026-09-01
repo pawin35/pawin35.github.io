@@ -692,7 +692,7 @@
         <div>
           <h2 class="text-2xl sm:text-3xl font-black text-white" lang="th">โหมดท้าทายความเร็ว 60 วินาที</h2>
           <p class="text-xs sm:text-sm text-slate-300 mt-2 max-w-md mx-auto leading-relaxed" lang="th">
-            ตอบคำถามให้ได้มากที่สุดภายใน 60 วินาที! หากทำคอมโบต่อเนื่องทุก 5 ข้อ จะได้รับเวลาโบนัส <strong>+3 วินาที</strong>
+            ตอบคำถามให้ได้มากที่สุดภายใน 60 วินาที! หากทำคอมโบต่อเนื่องทุก 5 ข้อ จะได้รับเวลาโบนัส <strong>+3 วินาที</strong> พร้อมเสียงติ๊กเตือนเวลา
           </p>
         </div>
 
@@ -724,7 +724,7 @@
 
     </section>
 
-    <!-- Speed Challenge Active Play Arena -->
+    <!-- Speed Challenge Active Play Arena (Accessible Radio Group & Zero Speech Spam) -->
     <section id="view-speed-play" class="max-w-3xl mx-auto space-y-6" style="display: none;">
       
       <!-- Top HUD with Timer -->
@@ -733,10 +733,10 @@
           ✕ ยอมแพ้
         </button>
 
-        <!-- Giant Countdown Timer -->
+        <!-- Giant Countdown Timer (Audio Ticking Only, No Speech Spam) -->
         <div class="flex items-center gap-2">
           <span class="text-xl" aria-hidden="true">⏱️</span>
-          <div id="speed-timer-display" class="text-2xl sm:text-3xl font-black font-mono text-orange-400" aria-live="assertive" aria-label="เวลาที่เหลือ">
+          <div id="speed-timer-display" class="text-2xl sm:text-3xl font-black font-mono text-orange-400" aria-label="เวลาที่เหลือ">
             60s
           </div>
         </div>
@@ -749,22 +749,39 @@
       </div>
 
       <!-- Speed Question Card -->
-      <article class="card-panel p-6 sm:p-8 rounded-3xl bg-slate-800/90 border border-slate-700 shadow-2xl text-center space-y-4">
-        <div class="flex items-center justify-center gap-2">
-          <span id="speed-badge-level" class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-500/20 text-indigo-300">A1</span>
-          <span id="speed-badge-pos" class="px-2 py-0.5 rounded text-xs font-medium bg-slate-700 text-slate-300">noun</span>
+      <article id="speed-question-card" class="card-panel p-6 sm:p-8 rounded-3xl bg-slate-800/90 border border-slate-700 shadow-2xl text-center space-y-5">
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          <span id="speed-badge-level" class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">A1</span>
+          <span id="speed-badge-pos" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 border border-slate-600">noun</span>
         </div>
 
-        <h2 id="speed-target-word" class="text-3xl sm:text-4xl font-black text-white tracking-tight" lang="en">
-          word
-        </h2>
-        
-        <p id="speed-target-reading" class="text-amber-300 text-sm font-medium" lang="th">คำอ่าน</p>
+        <div id="speed-question-prompt" class="text-xs sm:text-sm font-medium text-slate-400" lang="th">
+          เลือกความหมายภาษาไทยที่ถูกต้องสำหรับคำนี้:
+        </div>
+
+        <div class="space-y-1 py-1">
+          <h2 id="speed-target-word" class="text-3xl sm:text-5xl font-black text-white tracking-tight break-words" lang="en">
+            word
+          </h2>
+          <p id="speed-target-reading" class="text-amber-300 text-sm font-medium" lang="th">คำอ่าน</p>
+        </div>
+
+        <!-- Interactive Audio & Re-Read Controls for Speed Run -->
+        <div class="flex items-center justify-center gap-2 pt-1 flex-wrap">
+          <button id="btn-speed-reannounce" type="button" onclick="SpeedRun.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์ซ้ำ">
+            <span aria-hidden="true">📢</span>
+            <span>อ่านโจทย์ซ้ำ</span>
+          </button>
+          <button id="btn-speed-speak" type="button" onclick="SpeedRun.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่าน">
+            <span class="text-sm" aria-hidden="true">🔊</span>
+            <span>ฟังเสียงอ่าน</span>
+          </button>
+        </div>
       </article>
 
-      <!-- 4 Speed Options (Rapid Tap) -->
-      <div id="speed-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <!-- Dynamically rendered options for fast clicking -->
+      <!-- 4 Speed Options (WAI-ARIA Radio Group matching Normal Mode) -->
+      <div id="speed-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="ตัวเลือกคำตอบ">
+        <!-- Dynamically rendered options with radio semantics -->
       </div>
 
     </section>
@@ -959,7 +976,7 @@
           <div class="flex items-center justify-between pt-2 border-t border-slate-700/60">
             <div>
               <span class="font-medium text-white block">เอฟเฟกต์เสียงประกอบ (Sound Effects)</span>
-              <span class="text-xs text-slate-400">เสียงเมื่อตอบถูก คอมโบ และเลเวลอัป</span>
+              <span class="text-xs text-slate-400">เสียงเมื่อตอบถูก คอมโบ และเสียงติ๊กจับเวลา</span>
             </div>
             <input type="checkbox" id="settings-sound-sfx" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
           </div>
@@ -1124,7 +1141,7 @@
     };
 
     /* =========================================================================
-       3. AUDIO & SPEECH SYNTHESIS ENGINE
+       3. AUDIO & SPEECH SYNTHESIS ENGINE (WITH 4-STAGE SOFT TICKING SYNTHESIZER)
        ========================================================================= */
     const AudioSys = {
       synth: window.speechSynthesis || null,
@@ -1288,6 +1305,82 @@
           gain.connect(this.audioCtx.destination);
           osc.start(now);
           osc.stop(now + duration);
+        } catch(e) {}
+      },
+
+      /* 4-Stage Soft Ticking Synthesizer (Zero Screen Reader Interruption) */
+      playTick(intensity = 'slow') {
+        if (!this.soundEnabled) return;
+        this.initAudioCtx();
+        if (!this.audioCtx) return;
+        try {
+          const now = this.audioCtx.currentTime;
+          if (intensity === 'slow') {
+            // 60-40s: Soft gentle low wood-tick
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(320, now);
+            osc.frequency.exponentialRampToValueAtTime(120, now + 0.035);
+            gain.gain.setValueAtTime(this.sfxVolume * 0.22, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.035);
+          } else if (intensity === 'medium') {
+            // 40-20s: Medium crisp woodblock tick
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(480, now);
+            osc.frequency.exponentialRampToValueAtTime(180, now + 0.035);
+            gain.gain.setValueAtTime(this.sfxVolume * 0.32, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.035);
+          } else if (intensity === 'fast') {
+            // 20-10s: Faster higher tick
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(650, now);
+            osc.frequency.exponentialRampToValueAtTime(250, now + 0.03);
+            gain.gain.setValueAtTime(this.sfxVolume * 0.38, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.03);
+          } else if (intensity === 'dramatic') {
+            // 10-0s: Fast dramatic urgent double-pulse with rising tension
+            const osc1 = this.audioCtx.createOscillator();
+            const gain1 = this.audioCtx.createGain();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(850, now);
+            osc1.frequency.exponentialRampToValueAtTime(320, now + 0.035);
+            gain1.gain.setValueAtTime(this.sfxVolume * 0.45, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc1.connect(gain1);
+            gain1.connect(this.audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.035);
+
+            // Pulse 2 (100ms later)
+            const osc2 = this.audioCtx.createOscillator();
+            const gain2 = this.audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(1100, now + 0.1);
+            osc2.frequency.exponentialRampToValueAtTime(450, now + 0.14);
+            gain2.gain.setValueAtTime(this.sfxVolume * 0.4, now + 0.1);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+            osc2.connect(gain2);
+            gain2.connect(this.audioCtx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.14);
+          }
         } catch(e) {}
       },
 
@@ -2035,7 +2128,7 @@
     };
 
     /* =========================================================================
-       6. SPEED RUN (60-SECOND TIME ATTACK)
+       6. SPEED RUN (60-SECOND TIME ATTACK WITH 4-STAGE TICKING & FULL ACCESSIBILITY)
        ========================================================================= */
     const SpeedRun = {
       tier: 'ALL',
@@ -2044,6 +2137,8 @@
       score: 0,
       combo: 0,
       currentWord: null,
+      currentOptions: [],
+      focusedOptionIndex: 0,
 
       setTier(tier) {
         this.tier = tier;
@@ -2064,6 +2159,7 @@
         this.timeLeft = 60;
         this.score = 0;
         this.combo = 0;
+        this.focusedOptionIndex = 0;
 
         App.showView('speed-play');
         this.updateHUD();
@@ -2073,14 +2169,31 @@
         this.timerInterval = setInterval(() => {
           this.timeLeft -= 1;
           this.updateHUD();
+
+          // 4-Stage Soft Ticking Synthesizer (Zero Screen Reader Verbal Spam):
+          if (this.timeLeft > 40) {
+            // 60-40s: Tick slow (every 2s)
+            if (this.timeLeft % 2 === 0) {
+              AudioSys.playTick('slow');
+            }
+          } else if (this.timeLeft > 20) {
+            // 40-20s: Tick medium (every 1s)
+            AudioSys.playTick('medium');
+          } else if (this.timeLeft > 10) {
+            // 20-10s: Tick fast (2 ticks per sec)
+            AudioSys.playTick('fast');
+            setTimeout(() => AudioSys.playTick('fast'), 250);
+          } else if (this.timeLeft > 0) {
+            // 10-0s: Dramatic urgent double-pulse
+            AudioSys.playTick('dramatic');
+          }
+
           if (this.timeLeft <= 0) {
             this.end();
-          } else if (this.timeLeft === 10 || this.timeLeft === 5) {
-            Announcer.speak(`เหลือเวลา ${this.timeLeft} วินาที`);
           }
         }, 1000);
 
-        Announcer.speak('เริ่มการแข่งขันจับเวลา 60 วินาที');
+        Announcer.speak('เริ่มการแข่งขันจับเวลา 60 วินาที', 'polite');
       },
 
       updateHUD() {
@@ -2090,7 +2203,9 @@
           timerEl.textContent = `${this.timeLeft}s`;
           timerEl.className = this.timeLeft <= 10 
             ? 'text-2xl sm:text-3xl font-black font-mono text-rose-500 animate-pulse' 
-            : 'text-2xl sm:text-3xl font-black font-mono text-orange-400';
+            : this.timeLeft <= 20
+              ? 'text-2xl sm:text-3xl font-black font-mono text-amber-400'
+              : 'text-2xl sm:text-3xl font-black font-mono text-orange-400';
         }
         if (scoreEl) {
           scoreEl.textContent = this.score;
@@ -2101,6 +2216,7 @@
         const pool = VocabDB.getPool(this.tier);
         this.currentWord = pool[Math.floor(Math.random() * pool.length)];
         const distractors = VocabDB.getDistractors(this.currentWord, pool, 3);
+        this.focusedOptionIndex = 0;
 
         document.getElementById('speed-badge-level').textContent = this.currentWord.level;
         document.getElementById('speed-badge-pos').textContent = this.currentWord.pos_raw;
@@ -2112,24 +2228,98 @@
           ...distractors.map(d => ({ text: d.meaning, isCorrect: false, lang: 'th' }))
         ].sort(() => 0.5 - Math.random());
 
+        this.currentOptions = options;
+
         const container = document.getElementById('speed-options-container');
         container.innerHTML = '';
+        const optionLetters = ['A', 'B', 'C', 'D'];
+
         options.forEach((opt, idx) => {
           const btn = document.createElement('button');
           btn.type = 'button';
-          btn.className = 'game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-orange-500 text-white font-semibold text-left text-sm sm:text-base focus:outline-none';
-          btn.innerHTML = `<span class="text-orange-400 font-mono mr-1.5">${idx + 1}.</span> <span lang="${opt.lang}">${opt.text}</span>`;
-          btn.onclick = () => this.handleAnswer(opt.isCorrect);
+          btn.id = `speed-opt-${idx}`;
+          btn.className = 'game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-orange-500 text-white font-medium text-left flex items-center justify-between gap-3 shadow-lg focus:outline-none transition-all';
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', idx === 0 ? 'true' : 'false');
+          btn.tabIndex = idx === 0 ? 0 : -1;
+          btn.setAttribute('aria-label', `${optionLetters[idx]}. ${opt.text}`);
+          
+          btn.innerHTML = `
+            <div class="flex items-center gap-3">
+              <span class="w-7 h-7 rounded-lg bg-slate-800 text-orange-400 font-mono font-bold text-xs flex items-center justify-center border border-slate-700" aria-hidden="true">${optionLetters[idx]}</span>
+              <span class="text-sm sm:text-base font-semibold" lang="${opt.lang}">${opt.text}</span>
+            </div>
+          `;
+
+          btn.onclick = () => this.handleAnswerIndex(idx);
+
+          btn.onfocus = () => {
+            SpeedRun.focusedOptionIndex = idx;
+            for (let i = 0; i < 4; i++) {
+              const b = document.getElementById(`speed-opt-${i}`);
+              if (b) {
+                b.tabIndex = (i === idx) ? 0 : -1;
+                b.setAttribute('aria-checked', (i === idx) ? 'true' : 'false');
+              }
+            }
+          };
+
+          btn.onkeydown = (e) => {
+            if (['ArrowDown', 'ArrowRight'].includes(e.key) || e.code === 'ArrowDown' || e.code === 'ArrowRight') {
+              e.preventDefault();
+              SpeedRun.focusOption((idx + 1) % 4);
+            } else if (['ArrowUp', 'ArrowLeft'].includes(e.key) || e.code === 'ArrowUp' || e.code === 'ArrowLeft') {
+              e.preventDefault();
+              SpeedRun.focusOption((idx + 3) % 4);
+            }
+          };
+
           container.appendChild(btn);
         });
 
+        // Announce question prompt concisely to Screen Reader (No choices repeated)
+        this.reannounceQuestion();
+
+        // Initial focus routing to first option
         setTimeout(() => {
-          const firstBtn = container.querySelector('button');
+          const firstBtn = document.getElementById('speed-opt-0');
           if (firstBtn) firstBtn.focus();
-        }, 50);
+        }, 60);
       },
 
-      handleAnswer(isCorrect) {
+      focusOption(newIdx) {
+        this.focusedOptionIndex = newIdx;
+        for (let i = 0; i < 4; i++) {
+          const b = document.getElementById(`speed-opt-${i}`);
+          if (b) {
+            const isCurrent = (i === newIdx);
+            b.tabIndex = isCurrent ? 0 : -1;
+            b.setAttribute('aria-checked', isCurrent ? 'true' : 'false');
+            if (isCurrent) {
+              b.focus();
+            }
+          }
+        }
+      },
+
+      reannounceQuestion() {
+        if (!this.currentWord) return;
+        Announcer.speak(`เลือกความหมายภาษาไทยสำหรับคำนี้: ${this.currentWord.word}, ประเภทคำ: ${this.currentWord.pos_raw}`, 'assertive');
+        if (AudioSys.autoPlaySpeech) {
+          setTimeout(() => AudioSys.speakWord(this.currentWord.word), 300);
+        }
+      },
+
+      speakCurrentWord() {
+        if (!this.currentWord) return;
+        AudioSys.speakWord(this.currentWord.word);
+      },
+
+      handleAnswerIndex(selectedIndex) {
+        if (!this.currentOptions || !this.currentOptions[selectedIndex]) return;
+        const opt = this.currentOptions[selectedIndex];
+        const isCorrect = opt.isCorrect;
+
         if (isCorrect) {
           this.score += 10 + (this.combo * 2);
           this.combo += 1;
@@ -2137,7 +2327,7 @@
 
           if (this.combo % 5 === 0) {
             this.timeLeft += 3;
-            Announcer.speak(`คอมโบ ${this.combo} ข้อ! เพิ่มเวลา 3 วินาที`);
+            Announcer.speak(`คอมโบ ${this.combo}! เพิ่ม 3 วินาที`, 'polite');
           }
         } else {
           this.combo = 0;
@@ -2567,7 +2757,7 @@
           const code = e.code || '';
           const keyCode = e.keyCode || e.which || 0;
 
-          // In Quiz Arena
+          // In Normal Quiz Arena
           const isQuizVisible = document.getElementById('view-quiz') && document.getElementById('view-quiz').style.display !== 'none';
           if (isQuizVisible) {
 
@@ -2665,15 +2855,78 @@
             }
           }
 
-          // In Speed Run
+          // In Speed Run Arena (With Full Accessible Shortcuts)
           const isSpeedPlayVisible = document.getElementById('view-speed-play') && document.getElementById('view-speed-play').style.display !== 'none';
           if (isSpeedPlayVisible) {
-            if (['1', '2', '3', '4'].includes(e.key) || ['Digit1', 'Digit2', 'Digit3', 'Digit4'].includes(code)) {
+            
+            // Q / Re-read target word
+            const isQ = code === 'KeyQ' || keyCode === 81 || keyLower === 'q' || keyLower === '๐' || keyLower === 'ๆ';
+            if (isQ) {
               e.preventDefault();
               e.stopPropagation();
-              const num = parseInt(e.key) || (parseInt(code.replace('Digit', '')));
-              const btn = document.querySelectorAll('#speed-options-container button')[num - 1];
-              if (btn) btn.click();
+              SpeedRun.reannounceQuestion();
+              return;
+            }
+
+            // R / Speak audio
+            const isR = (code === 'KeyR' || keyCode === 82 || keyLower === 'r' || keyLower === 'พ') && !e.ctrlKey;
+            if (isR) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.speakCurrentWord();
+              return;
+            }
+
+            // Option 1
+            const is1 = code === 'Digit1' || code === 'Numpad1' || keyCode === 49 || keyCode === 97 || e.key === '1' || e.key === 'ๅ' || (!e.altKey && !e.ctrlKey && (keyLower === 'a' || code === 'KeyA' || keyCode === 65));
+            if (is1 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.handleAnswerIndex(0);
+              return;
+            }
+
+            // Option 2
+            const is2 = code === 'Digit2' || code === 'Numpad2' || keyCode === 50 || keyCode === 98 || e.key === '2' || e.key === '/' || (!e.altKey && !e.ctrlKey && (keyLower === 'b' || code === 'KeyB' || keyCode === 66));
+            if (is2 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.handleAnswerIndex(1);
+              return;
+            }
+
+            // Option 3
+            const is3 = code === 'Digit3' || code === 'Numpad3' || keyCode === 51 || keyCode === 99 || e.key === '3' || e.key === '-' || (!e.altKey && !e.ctrlKey && (keyLower === 'c' || code === 'KeyC' || keyCode === 67));
+            if (is3 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.handleAnswerIndex(2);
+              return;
+            }
+
+            // Option 4
+            const is4 = code === 'Digit4' || code === 'Numpad4' || keyCode === 52 || keyCode === 100 || e.key === '4' || e.key === 'ภ' || (!e.altKey && !e.ctrlKey && (keyLower === 'd' || code === 'KeyD' || keyCode === 68));
+            if (is4 && !e.ctrlKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.handleAnswerIndex(3);
+              return;
+            }
+
+            // Space / Enter: Submit focused choice
+            if (e.key === ' ' || code === 'Space' || keyCode === 32 || e.key === 'Enter' || code === 'Enter' || keyCode === 13) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.handleAnswerIndex(SpeedRun.focusedOptionIndex);
+              return;
+            }
+
+            // Escape: Exit speed run
+            if (e.key === 'Escape' || code === 'Escape' || keyCode === 27) {
+              e.preventDefault();
+              e.stopPropagation();
+              SpeedRun.exit();
+              return;
             }
           }
         }, true);
