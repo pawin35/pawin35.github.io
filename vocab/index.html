@@ -692,7 +692,7 @@
         <div>
           <h2 class="text-2xl sm:text-3xl font-black text-white" lang="th">โหมดท้าทายความเร็ว 60 วินาที</h2>
           <p class="text-xs sm:text-sm text-slate-300 mt-2 max-w-md mx-auto leading-relaxed" lang="th">
-            ตอบคำถามให้ได้มากที่สุดภายใน 60 วินาที! หากทำคอมโบต่อเนื่องทุก 5 ข้อ จะได้รับเวลาโบนัส <strong>+3 วินาที</strong> พร้อมเสียงติ๊กเตือนเวลา
+            ตอบคำถามให้ได้มากที่สุดภายใน 60 วินาที! รับเวลาโบนัสเมื่อทำคอมโบ: <strong>3 ข้อ (+1 วิ)</strong>, <strong>5 ข้อ (+3 วิ)</strong>, <strong>10 ข้อ (+5 วิ)</strong>, <strong>15 ข้อ (+7 วิ)</strong>, <strong>20+ ข้อ (+10 วิ)</strong> พร้อมตัวคูณคะแนนพิเศษและเสียงฉลองคอมโบสุดเร้าใจ
           </p>
         </div>
 
@@ -1455,6 +1455,43 @@
         this.playTone(739.99, 'triangle', 0.1, 0.07);
         this.playTone(880.00, 'triangle', 0.15, 0.14);
         this.playTone(1174.66, 'triangle', 0.25, 0.21);
+      },
+
+      /* Celebratory Chime Arpeggios for Speed Run Milestones */
+      playComboMilestone(combo) {
+        if (!this.soundEnabled) return;
+        this.initAudioCtx();
+        if (combo === 3) {
+          // 3-Streak: Dual rising bell (G5 -> C6)
+          this.playTone(783.99, 'triangle', 0.12, 0);
+          this.playTone(1046.50, 'sine', 0.22, 0.08);
+        } else if (combo === 5) {
+          // 5-Streak: Bright 3-note ascending arpeggio (C5 -> E5 -> G5)
+          this.playTone(523.25, 'triangle', 0.12, 0);
+          this.playTone(659.25, 'triangle', 0.14, 0.08);
+          this.playTone(783.99, 'sine', 0.25, 0.16);
+        } else if (combo === 10) {
+          // 10-Streak: Golden 4-note celebratory fanfare (C5 -> G5 -> C6 -> E6)
+          this.playTone(523.25, 'triangle', 0.1, 0);
+          this.playTone(783.99, 'triangle', 0.12, 0.07);
+          this.playTone(1046.50, 'sine', 0.16, 0.14);
+          this.playTone(1318.51, 'sine', 0.35, 0.22);
+        } else if (combo === 15) {
+          // 15-Streak: Crystal harmonic sparkle (E5 -> G#5 -> B5 -> E6)
+          this.playTone(659.25, 'triangle', 0.1, 0);
+          this.playTone(830.61, 'triangle', 0.12, 0.07);
+          this.playTone(987.77, 'sine', 0.16, 0.14);
+          this.playTone(1318.51, 'sine', 0.38, 0.22);
+        } else if (combo >= 20 && combo % 5 === 0) {
+          // 20+ Streak: Grand legendary victory arpeggio (C5 -> G5 -> C6 -> E6 -> G6)
+          this.playTone(523.25, 'triangle', 0.09, 0);
+          this.playTone(783.99, 'triangle', 0.11, 0.06);
+          this.playTone(1046.50, 'triangle', 0.13, 0.12);
+          this.playTone(1318.51, 'sine', 0.18, 0.18);
+          this.playTone(1567.98, 'sine', 0.45, 0.25);
+        } else {
+          this.playCorrect();
+        }
       },
 
       playVictory() {
@@ -2379,17 +2416,39 @@
         const isCorrect = opt.isCorrect;
 
         if (isCorrect) {
-          this.score += 10 + (this.combo * 2);
           this.correctCount += 1;
           this.combo += 1;
           if (this.combo > this.maxCombo) {
             this.maxCombo = this.combo;
           }
-          AudioSys.playCorrect();
 
-          if (this.combo % 5 === 0) {
+          // Progressive Score Multiplier starting from 10x combo
+          let multiplier = 1.0;
+          if (this.combo >= 20) multiplier = 1.75;
+          else if (this.combo >= 15) multiplier = 1.5;
+          else if (this.combo >= 10) multiplier = 1.25;
+
+          const pointsGained = Math.round(10 * multiplier) + Math.min(8, Math.floor(this.combo / 2));
+          this.score += pointsGained;
+
+          // Tiered Time Extension Incentives & Celebratory Audio (Zero speech interruption):
+          if (this.combo === 3) {
+            this.timeLeft += 1;
+            AudioSys.playComboMilestone(3);
+          } else if (this.combo === 5) {
             this.timeLeft += 3;
-            Announcer.speak(`คอมโบ ${this.combo}! เพิ่ม 3 วินาที`, 'polite');
+            AudioSys.playComboMilestone(5);
+          } else if (this.combo === 10) {
+            this.timeLeft += 5;
+            AudioSys.playComboMilestone(10);
+          } else if (this.combo === 15) {
+            this.timeLeft += 7;
+            AudioSys.playComboMilestone(15);
+          } else if (this.combo >= 20 && this.combo % 5 === 0) {
+            this.timeLeft += 10;
+            AudioSys.playComboMilestone(this.combo);
+          } else {
+            AudioSys.playCorrect();
           }
         } else {
           this.combo = 0;
