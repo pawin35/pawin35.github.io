@@ -141,7 +141,7 @@
   <canvas id="confetti-canvas" class="pointer-events-none fixed inset-0 z-50 w-full h-full" style="display: none;" aria-hidden="true"></canvas>
 
   <!-- Top App Header -->
-  <header role="banner" class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-md">
+  <header id="app-header" role="banner" class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-md">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
       
       <!-- Brand & Level Info -->
@@ -258,7 +258,7 @@
           <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
             <span>🎯</span> เลือกระดับความยากที่ต้องการฝึก
           </h2>
-          <span class="text-xs text-slate-400">เปิดให้ฝึกได้ทุกระดับอิสระ</span>
+          <span class="text-xs text-slate-400">คลิกเริ่มทันที 1 คลิก หรือกดปรับแต่งรอบนี้</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -273,10 +273,12 @@
               <h3 class="text-base font-bold text-white group-hover:text-blue-300 transition-colors">ระดับเริ่มต้น</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์พื้นฐานสำคัญที่สุดสำหรับการสื่อสารในชีวิตประจำวัน</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
-              <span class="text-xs text-amber-400 font-bold">+10 XP / ข้อ</span>
-              <button onclick="Quiz.startSetup('A1')" class="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95" aria-label="เริ่มฝึกฝนระดับ A1">
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
+              <button onclick="Quiz.startInstant('A1')" class="flex-1 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ A1 ทันที 10 ข้อ">
                 เริ่มฝึก A1 🚀
+              </button>
+              <button onclick="Quiz.openSetup('A1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ A1" title="ปรับแต่งรอบนี้">
+                ⚙️
               </button>
             </div>
           </div>
@@ -291,10 +293,12 @@
               <h3 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">ระดับพื้นฐาน</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์สำหรับการสนทนา ข้อมูลส่วนตัว และงานประจำ</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
-              <span class="text-xs text-amber-400 font-bold">+20 XP / ข้อ</span>
-              <button onclick="Quiz.startSetup('A2')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95" aria-label="เริ่มฝึกฝนระดับ A2">
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
+              <button onclick="Quiz.startInstant('A2')" class="flex-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ A2 ทันที 10 ข้อ">
                 เริ่มฝึก A2 🚀
+              </button>
+              <button onclick="Quiz.openSetup('A2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ A2" title="ปรับแต่งรอบนี้">
+                ⚙️
               </button>
             </div>
           </div>
@@ -309,10 +313,12 @@
               <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">ระดับกลาง</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์สำหรับอธิบายเหตุการณ์ ความคิดเห็น และการทำงาน</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
-              <span class="text-xs text-amber-400 font-bold">+30 XP / ข้อ</span>
-              <button onclick="Quiz.startSetup('B1')" class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95" aria-label="เริ่มฝึกฝนระดับ B1">
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
+              <button onclick="Quiz.startInstant('B1')" class="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ B1 ทันที 10 ข้อ">
                 เริ่มฝึก B1 🚀
+              </button>
+              <button onclick="Quiz.openSetup('B1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ B1" title="ปรับแต่งรอบนี้">
+                ⚙️
               </button>
             </div>
           </div>
@@ -327,10 +333,12 @@
               <h3 class="text-base font-bold text-white group-hover:text-purple-300 transition-colors">ระดับกลางค่อนข้างสูง</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์เชิงวิชาการ การวิเคราะห์ และหัวข้อเฉพาะทาง</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
-              <span class="text-xs text-amber-400 font-bold">+50 XP / ข้อ</span>
-              <button onclick="Quiz.startSetup('B2')" class="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95" aria-label="เริ่มฝึกฝนระดับ B2">
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
+              <button onclick="Quiz.startInstant('B2')" class="flex-1 px-3 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ B2 ทันที 10 ข้อ">
                 เริ่มฝึก B2 🚀
+              </button>
+              <button onclick="Quiz.openSetup('B2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ B2" title="ปรับแต่งรอบนี้">
+                ⚙️
               </button>
             </div>
           </div>
@@ -348,9 +356,14 @@
               <p class="text-xs text-slate-300 mt-0.5">สุ่มคำศัพท์จากคลังทั้งหมดเพื่อทดสอบความแม่นยำอย่างครอบคลุม</p>
             </div>
           </div>
-          <button onclick="Quiz.startSetup('ALL')" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 whitespace-nowrap" aria-label="เริ่มฝึกฝนแบบผสมทุกระดับ A1 ถึง B2">
-            เริ่มฝึกคละระดับ 🎲
-          </button>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button onclick="Quiz.startInstant('ALL')" class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 whitespace-nowrap" aria-label="เริ่มฝึกฝนแบบผสมทุกระดับ A1 ถึง B2 ทันที 10 ข้อ">
+              เริ่มฝึกคละระดับ 🎲
+            </button>
+            <button onclick="Quiz.openSetup('ALL', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 focus:outline-none" aria-label="ปรับแต่งการฝึกแบบผสมทุกระดับ" title="ปรับแต่งรอบนี้">
+              ⚙️
+            </button>
+          </div>
         </div>
 
       </div>
@@ -396,19 +409,19 @@
 
 
     <!-- ========================================================================= -->
-    <!-- VIEW 2: QUIZ CONFIG MODAL / SETUP (ตั้งค่าการฝึกรอบนี้) -->
+    <!-- VIEW 2: QUIZ CONFIG MODAL / SETUP (ตั้งค่าการฝึกรอบนี้ with Focus Trap) -->
     <!-- ========================================================================= -->
     <div id="modal-quiz-setup" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="setup-modal-title">
-      <div class="card-panel w-full max-w-lg rounded-2xl bg-slate-900 border border-slate-700 p-6 shadow-2xl space-y-6">
+      <div id="modal-dialog-panel" class="card-panel w-full max-w-lg rounded-2xl bg-slate-900 border border-slate-700 p-6 shadow-2xl space-y-6" tabindex="-1">
         
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div>
-            <h2 id="setup-modal-title" class="text-xl font-bold text-white flex items-center gap-2">
+            <h2 id="setup-modal-title" tabindex="-1" class="text-xl font-bold text-white flex items-center gap-2 focus:outline-none">
               <span>⚙️</span> ตั้งค่าการฝึกฝน
             </h2>
             <p id="setup-modal-tier-desc" class="text-xs text-indigo-400 mt-0.5 font-medium">ระดับ: A1 (747 คำ)</p>
           </div>
-          <button onclick="Quiz.closeSetup()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none" aria-label="ปิดหน้าต่างตั้งค่า">
+          <button id="btn-close-setup-modal" onclick="Quiz.closeSetup()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none" aria-label="ปิดหน้าต่างตั้งค่า (Escape)">
             ✕
           </button>
         </div>
@@ -453,14 +466,14 @@
 
         <!-- Accessible Hint Info -->
         <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-400">
-          💡 <strong>คีย์ลัดการใช้งาน:</strong> กดเลข <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">1</kbd>-<kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">4</kbd> เพื่อตอบ, <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Space</kbd> หรือ <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">R</kbd> ฟังเสียง, <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Enter</kbd> ไปข้อถัดไป
+          💡 <strong>คีย์ลัด:</strong> กด <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Enter</kbd> เพื่อเริ่มทันที หรือกด <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Esc</kbd> เพื่อยกเลิก
         </div>
 
         <div class="flex items-center justify-end gap-3 pt-2">
           <button type="button" onclick="Quiz.closeSetup()" class="px-4 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 text-xs font-bold focus:outline-none">
-            ยกเลิก
+            ยกเลิก (Esc)
           </button>
-          <button type="button" onclick="Quiz.startSession()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-amber-500 hover:from-indigo-500 hover:to-amber-400 text-white text-xs font-bold shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เริ่มทำแบบทดสอบ">
+          <button type="button" id="btn-setup-start-confirm" onclick="Quiz.startSession()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-amber-500 hover:from-indigo-500 hover:to-amber-400 text-white text-xs font-bold shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เริ่มทำแบบทดสอบ (Enter)">
             เริ่มเลย 🚀
           </button>
         </div>
@@ -478,7 +491,7 @@
       <div class="flex items-center justify-between gap-3 bg-slate-800/80 p-3.5 rounded-2xl border border-slate-700/80 shadow-md">
         
         <!-- Exit Quiz Button -->
-        <button onclick="Quiz.exitQuiz()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="ออกจากแบบทดสอบกลับหน้าหลัก" title="ออกจากแบบทดสอบ">
+        <button onclick="Quiz.exitQuiz()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="ออกจากแบบทดสอบกลับหน้าหลัก (Escape)" title="ออกจากแบบทดสอบ">
           <span aria-hidden="true">✕</span> ออก
         </button>
 
@@ -647,7 +660,7 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-3 pt-4">
-          <button onclick="Quiz.restartSession()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เล่นอีกรอบ">
+          <button id="btn-summary-restart" onclick="Quiz.restartSession()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="ฝึกอีกรอบ">
             🔄 ฝึกอีกรอบ
           </button>
           <button onclick="App.navigate('home')" class="px-6 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white font-bold text-xs sm:text-sm shadow-md focus:outline-none transition-transform active:scale-95" aria-label="กลับสู่หน้าหลัก">
@@ -979,8 +992,8 @@
               <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">1</kbd> - <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">4</kbd> หรือ <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">A</kbd> - <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">D</kbd>: เลือกคำตอบ</li>
               <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Space</kbd> หรือ <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">R</kbd>: เล่นเสียงอ่านคำศัพท์</li>
               <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">H</kbd>: เปิด/ปิด คำใบ้</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Enter</kbd>: ไปข้อถัดไป</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Esc</kbd>: ออกจากแบบทดสอบ</li>
+              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Enter</kbd>: ไปข้อถัดไป / เริ่มทำแบบทดสอบ</li>
+              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Esc</kbd>: ปิดหน้าต่าง / ออกจากแบบทดสอบ</li>
             </ul>
           </div>
         </div>
@@ -1033,7 +1046,7 @@
   </main>
 
   <!-- Global Footer -->
-  <footer role="contentinfo" class="border-t border-slate-800/80 py-4 bg-slate-950/80 text-center text-xs text-slate-500">
+  <footer id="app-footer" role="contentinfo" class="border-t border-slate-800/80 py-4 bg-slate-950/80 text-center text-xs text-slate-500">
     <p>Oxford Vocab Hero • 3,146 Core Vocabulary Dataset • รองรับการใช้งานแบบออฟไลน์ 100%</p>
   </footer>
 
@@ -1139,7 +1152,6 @@
           if (this.synth.onvoiceschanged !== undefined) {
             this.synth.onvoiceschanged = () => this.loadVoices();
           }
-          // Periodic retry for slow-loading voices on mobile
           setTimeout(() => this.loadVoices(), 500);
           setTimeout(() => this.loadVoices(), 1500);
         }
@@ -1149,7 +1161,6 @@
           if (this.isUnlocked) return;
           this.initAudioCtx();
           if (this.synth) {
-            // Prime speech synthesis on iOS
             const silent = new SpeechSynthesisUtterance('');
             this.synth.speak(silent);
           }
@@ -1166,18 +1177,15 @@
       loadVoices() {
         if (!this.synth) return;
         const allVoices = this.synth.getVoices() || [];
-        // Filter English voices
         this.voices = allVoices.filter(v => {
           const l = (v.lang || '').replace('_', '-').toLowerCase();
           return l.startsWith('en');
         });
 
-        // If no English voice filtered, fallback to all voices
         if (this.voices.length === 0 && allVoices.length > 0) {
           this.voices = allVoices;
         }
 
-        // Pick preferred voice if none selected
         if (this.selectedVoiceURI) {
           this.selectedVoice = this.voices.find(v => v.voiceURI === this.selectedVoiceURI) || null;
         }
@@ -1253,7 +1261,7 @@
       speakWord(text, onEnd) {
         if (!this.synth || !text) return;
         try {
-          this.synth.cancel(); // Cancel any prior speech
+          this.synth.cancel();
           const utterance = new SpeechSynthesisUtterance(text);
           utterance.lang = 'en-US';
           if (this.selectedVoice) {
@@ -1334,7 +1342,7 @@
           todayWordsCount: 0,
           todayDate: ''
         },
-        mistakes: {}, // { [wordId]: { wrongCount: 1, streak: 0 } }
+        mistakes: {},
         bookmarks: [],
         highScoreSpeed: 0,
         settings: {
@@ -1343,7 +1351,9 @@
           speechRate: 1.0,
           autoPlaySpeech: true,
           selectedVoiceURI: '',
-          highContrast: false
+          highContrast: false,
+          preferredWordCount: 10,
+          preferredFormat: 'mixed'
         }
       },
 
@@ -1372,12 +1382,10 @@
       checkStreakAndDaily() {
         const today = new Date().toISOString().split('T')[0];
         if (this.state.user.todayDate !== today) {
-          // New day
           const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
           if (this.state.user.lastPlayedDate === yesterday) {
-            // Maintained streak
+            // Maintained
           } else if (this.state.user.lastPlayedDate !== today) {
-            // Broken streak
             if (this.state.user.lastPlayedDate && this.state.user.lastPlayedDate < yesterday) {
               this.state.user.streakDays = 0;
             }
@@ -1400,18 +1408,15 @@
 
         if (isCorrect) {
           this.state.user.totalXP += xpEarned;
-          // Update level
           this.state.user.level = this.calculateLevel(this.state.user.totalXP);
 
-          // Handle mistake clearing (spaced repetition)
           if (this.state.mistakes[wordId]) {
             this.state.mistakes[wordId].streak = (this.state.mistakes[wordId].streak || 0) + 1;
             if (this.state.mistakes[wordId].streak >= 2) {
-              delete this.state.mistakes[wordId]; // Mastered and cleared!
+              delete this.state.mistakes[wordId];
             }
           }
         } else {
-          // Record mistake
           if (!this.state.mistakes[wordId]) {
             this.state.mistakes[wordId] = { wrongCount: 0, streak: 0 };
           }
@@ -1424,7 +1429,6 @@
       },
 
       calculateLevel(xp) {
-        // Level formula: Level = floor(sqrt(XP / 50)) + 1
         return Math.floor(Math.sqrt(xp / 50)) + 1;
       },
 
@@ -1463,6 +1467,8 @@
         this.state.settings.speechRate = AudioSys.speechRate;
         this.state.settings.autoPlaySpeech = AudioSys.autoPlaySpeech;
         this.state.settings.selectedVoiceURI = AudioSys.selectedVoiceURI;
+        this.state.settings.preferredWordCount = Quiz.wordCount;
+        this.state.settings.preferredFormat = Quiz.questionFormat;
         this.save();
       },
 
@@ -1473,6 +1479,8 @@
         AudioSys.speechRate = s.speechRate ?? 1.0;
         AudioSys.autoPlaySpeech = s.autoPlaySpeech ?? true;
         AudioSys.selectedVoiceURI = s.selectedVoiceURI || '';
+        Quiz.wordCount = s.preferredWordCount || 10;
+        Quiz.questionFormat = s.preferredFormat || 'mixed';
         if (s.highContrast) {
           document.documentElement.classList.add('high-contrast');
         }
@@ -1524,12 +1532,12 @@
     };
 
     /* =========================================================================
-       5. QUIZ ENGINE (TRAINING & PRACTICE MODES)
+       5. QUIZ ENGINE (WITH ACCESSIBLE MODAL & INSTANT START)
        ========================================================================= */
     const Quiz = {
       tier: 'A1',
       wordCount: 10,
-      questionFormat: 'mixed', // 'mixed' | 'eng_to_th' | 'th_to_eng'
+      questionFormat: 'mixed',
       queue: [],
       currentIndex: 0,
       currentQuestion: null,
@@ -1539,17 +1547,57 @@
       totalXPEarned: 0,
       sessionMistakes: [],
       answered: false,
+      triggerElement: null,
+      isModalOpen: false,
 
-      startSetup(tier) {
+      /* Instant 1-click start (Zero friction!) */
+      startInstant(tier) {
         this.tier = tier;
+        this.startSession();
+      },
+
+      /* Open Customization Modal with Complete Focus Routing & Trap */
+      openSetup(tier, triggerBtn) {
+        this.tier = tier;
+        this.triggerElement = triggerBtn || document.activeElement;
+        this.isModalOpen = true;
+
         const tierName = tier === 'ALL' ? 'คละทุกระดับ (A1–B2 รวม 3,146 คำ)' : `ระดับ: ${tier}`;
         document.getElementById('setup-modal-tier-desc').textContent = tierName;
-        document.getElementById('modal-quiz-setup').style.display = 'flex';
-        Announcer.speak(`เปิดหน้าต่างตั้งค่าสำหรับ ${tierName}`);
+        
+        // Sync UI with current settings
+        this.setWordCount(this.wordCount);
+        this.setQuestionFormat(this.questionFormat);
+
+        // Hide background from screen reader
+        document.getElementById('main-content').setAttribute('aria-hidden', 'true');
+        document.getElementById('app-header').setAttribute('aria-hidden', 'true');
+
+        const modal = document.getElementById('modal-quiz-setup');
+        modal.style.display = 'flex';
+
+        // Route focus directly to modal heading
+        setTimeout(() => {
+          const title = document.getElementById('setup-modal-title');
+          if (title) title.focus();
+        }, 50);
+
+        Announcer.speak(`เปิดหน้าต่างตั้งค่าสำหรับ ${tierName}. กด Enter เพื่อเริ่มทันที หรือกด Tab เพื่อปรับการตั้งค่า`, 'assertive');
       },
 
       closeSetup() {
-        document.getElementById('modal-quiz-setup').style.display = 'none';
+        this.isModalOpen = false;
+        const modal = document.getElementById('modal-quiz-setup');
+        modal.style.display = 'none';
+
+        // Unhide background
+        document.getElementById('main-content').removeAttribute('aria-hidden');
+        document.getElementById('app-header').removeAttribute('aria-hidden');
+
+        // Restore focus to trigger button
+        if (this.triggerElement && typeof this.triggerElement.focus === 'function') {
+          this.triggerElement.focus();
+        }
       },
 
       setWordCount(count) {
@@ -1565,6 +1613,7 @@
           active.classList.add('bg-indigo-600', 'text-white', 'border-indigo-500');
           active.setAttribute('aria-checked', 'true');
         }
+        StorageSys.saveSettingsState();
       },
 
       setQuestionFormat(fmt) {
@@ -1580,14 +1629,16 @@
           active.classList.add('bg-indigo-600', 'text-white', 'border-indigo-500');
           active.setAttribute('aria-checked', 'true');
         }
+        StorageSys.saveSettingsState();
       },
 
       startSession() {
-        this.closeSetup();
+        if (this.isModalOpen) {
+          this.closeSetup();
+        }
         const pool = VocabDB.getPool(this.tier);
         if (!pool || pool.length === 0) return;
 
-        // Shuffle pool
         const shuffled = [...pool].sort(() => 0.5 - Math.random());
         const count = Math.min(this.wordCount, shuffled.length);
         this.queue = shuffled.slice(0, count);
@@ -1614,7 +1665,6 @@
         const pool = VocabDB.getPool(this.tier);
         const distractors = VocabDB.getDistractors(target, pool, 3);
 
-        // Determine question type: 'eng_to_th' or 'th_to_eng' or 'listening'
         let qType = this.questionFormat;
         if (qType === 'mixed') {
           const rand = Math.random();
@@ -1678,7 +1728,7 @@
           phoneticsEl.style.display = 'flex';
         }
 
-        // Build Options (1 correct + 3 distractors)
+        // Build Options
         let options = [];
         if (qType === 'eng_to_th') {
           options = [
@@ -1692,7 +1742,6 @@
           ];
         }
 
-        // Shuffle options
         options.sort(() => 0.5 - Math.random());
         this.currentQuestion.options = options;
 
@@ -1709,7 +1758,7 @@
           btn.className = `game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-indigo-500 text-white font-medium text-left flex items-center justify-between gap-3 shadow-lg focus:outline-none transition-all`;
           btn.setAttribute('role', 'radio');
           btn.setAttribute('aria-checked', 'false');
-          btn.setAttribute('aria-label', `ตัวเลือกที่ ${idx + 1}: ${opt.text}`);
+          btn.setAttribute('aria-label', `ตัวเลือกที่ ${idx + 1}: ${opt.text} (กด ${idx + 1})`);
           
           btn.innerHTML = `
             <div class="flex items-center gap-3">
@@ -1739,9 +1788,11 @@
         }
         Announcer.speak(announceText);
 
-        // Focus question card or first option
-        const firstOpt = document.getElementById('quiz-opt-0');
-        if (firstOpt) firstOpt.focus();
+        // Immediate focus routing to first option
+        setTimeout(() => {
+          const firstOpt = document.getElementById('quiz-opt-0');
+          if (firstOpt) firstOpt.focus();
+        }, 60);
       },
 
       handleAnswer(selectedIndex) {
@@ -1755,7 +1806,6 @@
         const feedbackSubtitle = document.getElementById('quiz-feedback-subtitle');
         const feedbackIcon = document.getElementById('quiz-feedback-icon');
 
-        // Disable options and show right/wrong styling
         this.currentQuestion.options.forEach((o, idx) => {
           const btn = document.getElementById(`quiz-opt-${idx}`);
           if (!btn) return;
@@ -1770,14 +1820,12 @@
         });
 
         if (opt.isCorrect) {
-          // Correct!
           this.correctCount += 1;
           this.currentCombo += 1;
           if (this.currentCombo > this.maxCombo) {
             this.maxCombo = this.currentCombo;
           }
 
-          // Calculate Combo Multiplier
           let multiplier = 1.0;
           if (this.currentCombo >= 10) multiplier = 2.0;
           else if (this.currentCombo >= 5) multiplier = 1.5;
@@ -1800,7 +1848,6 @@
 
           Announcer.speak(`ถูกต้อง! ได้รับ ${xpGained} XP, คำตอบคือ ${target.word} แปลว่า ${target.meaning}`, 'assertive');
         } else {
-          // Wrong!
           this.currentCombo = 0;
           this.sessionMistakes.push(target);
           StorageSys.addWordProgress(target.id, false, 0);
@@ -1823,9 +1870,11 @@
 
         feedbackPanel.style.display = 'block';
 
-        // Focus "Next Question" button
-        const nextBtn = document.getElementById('btn-quiz-next');
-        if (nextBtn) nextBtn.focus();
+        // Automatically route focus to "Next Question" button
+        setTimeout(() => {
+          const nextBtn = document.getElementById('btn-quiz-next');
+          if (nextBtn) nextBtn.focus();
+        }, 50);
       },
 
       nextQuestion() {
@@ -1865,7 +1914,6 @@
         document.getElementById('summary-xp-gained').textContent = `+${this.totalXPEarned}`;
         document.getElementById('summary-max-combo').textContent = `${this.maxCombo}x`;
 
-        // Render Mistakes List if any
         const mistakesSec = document.getElementById('summary-mistakes-section');
         const mistakesList = document.getElementById('summary-mistakes-list');
         if (this.sessionMistakes.length > 0) {
@@ -1882,6 +1930,10 @@
         }
 
         Announcer.speak(`ภารกิจเสร็จสิ้น ความแม่นยำ ${accuracy}%, ได้รับ ${this.totalXPEarned} XP`);
+        setTimeout(() => {
+          const restartBtn = document.getElementById('btn-summary-restart');
+          if (restartBtn) restartBtn.focus();
+        }, 80);
       },
 
       restartSession() {
@@ -2018,9 +2070,10 @@
           container.appendChild(btn);
         });
 
-        // Fast focus
-        const firstBtn = container.querySelector('button');
-        if (firstBtn) firstBtn.focus();
+        setTimeout(() => {
+          const firstBtn = container.querySelector('button');
+          if (firstBtn) firstBtn.focus();
+        }, 50);
       },
 
       handleAnswer(isCorrect) {
@@ -2029,7 +2082,6 @@
           this.combo += 1;
           AudioSys.playCorrect();
 
-          // Bonus 3 seconds on every 5-streak
           if (this.combo % 5 === 0) {
             this.timeLeft += 3;
             Announcer.speak(`คอมโบ ${this.combo} ข้อติด! ได้รับโบนัส +3 วินาที`, 'assertive');
@@ -2194,17 +2246,14 @@
       render() {
         let list = VocabDB.items;
 
-        // Apply Tier Filter
         if (this.tierFilter !== 'ALL') {
           list = list.filter(w => w.level === this.tierFilter);
         }
 
-        // Apply Bookmark Filter
         if (this.onlyBookmarked) {
           list = list.filter(w => StorageSys.isBookmarked(w.id));
         }
 
-        // Apply Search Filter
         if (this.searchQuery) {
           const q = this.searchQuery;
           list = list.filter(w => 
@@ -2215,10 +2264,8 @@
           );
         }
 
-        // Update count
         document.getElementById('dict-results-count').textContent = list.length.toLocaleString();
 
-        // Pagination
         const totalPages = Math.ceil(list.length / this.pageSize) || 1;
         if (this.page > totalPages) this.page = totalPages;
         const startIdx = (this.page - 1) * this.pageSize;
@@ -2323,7 +2370,7 @@
     };
 
     /* =========================================================================
-       10. APP LIFECYCLE & VIEW ROUTER
+       10. APP LIFECYCLE & VIEW ROUTER & ACCESSIBLE FOCUS TRAP
        ========================================================================= */
     const App = {
       currentView: 'home',
@@ -2336,6 +2383,7 @@
 
         this.updateHeaderStats();
         this.bindKeyboardShortcuts();
+        this.bindModalFocusTrap();
         this.navigate('home');
       },
 
@@ -2413,10 +2461,53 @@
         }
       },
 
+      bindModalFocusTrap() {
+        const modal = document.getElementById('modal-quiz-setup');
+        modal.addEventListener('keydown', (e) => {
+          if (!Quiz.isModalOpen) return;
+
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            Quiz.closeSetup();
+            return;
+          }
+
+          if (e.key === 'Enter') {
+            // If Enter pressed inside modal and not on cancel button, start session immediately!
+            if (e.target.tagName !== 'BUTTON' || e.target.id === 'btn-setup-start-confirm') {
+              e.preventDefault();
+              Quiz.startSession();
+              return;
+            }
+          }
+
+          if (e.key === 'Tab') {
+            const focusables = Array.from(modal.querySelectorAll('button:not([disabled]), [tabindex="0"]'));
+            if (focusables.length === 0) return;
+
+            const firstEl = focusables[0];
+            const lastEl = focusables[focusables.length - 1];
+
+            if (e.shiftKey) {
+              if (document.activeElement === firstEl || document.activeElement === modal || document.activeElement === document.getElementById('setup-modal-title')) {
+                e.preventDefault();
+                lastEl.focus();
+              }
+            } else {
+              if (document.activeElement === lastEl) {
+                e.preventDefault();
+                firstEl.focus();
+              }
+            }
+          }
+        });
+      },
+
       bindKeyboardShortcuts() {
         window.addEventListener('keydown', (e) => {
-          // Ignore typing in inputs
+          // Ignore typing in inputs or when modal is open
           if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+          if (Quiz.isModalOpen) return;
 
           // In Quiz Arena
           if (this.currentView === 'quiz' && document.getElementById('view-quiz').style.display !== 'none') {
