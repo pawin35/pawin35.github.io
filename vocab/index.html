@@ -786,6 +786,56 @@
 
     </section>
 
+    <!-- Speed Challenge Summary / In-Page Results Screen (Standard Web, No window prompt) -->
+    <section id="view-speed-summary" class="max-w-2xl mx-auto space-y-6 text-center" style="display: none;">
+      <div class="card-panel p-8 rounded-3xl bg-slate-800/90 border border-orange-500/50 shadow-2xl space-y-6">
+        
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center text-4xl shadow-xl animate-bounce" aria-hidden="true">
+          ⚡
+        </div>
+
+        <div>
+          <h2 id="speed-summary-title" class="text-2xl sm:text-3xl font-black text-white" lang="th">หมดเวลาการแข่งขัน!</h2>
+          <p id="speed-summary-subtitle" class="text-xs sm:text-sm text-slate-300 mt-1" lang="th">ผลคะแนนโหมดจับเวลา 60 วินาที</p>
+        </div>
+
+        <!-- Speed Statistics Badges -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60">
+            <div class="text-xs text-slate-400">คะแนนที่ทำได้</div>
+            <div id="speed-summary-score" class="text-lg sm:text-2xl font-black text-orange-400 mt-1">0</div>
+            <div class="text-[10px] text-slate-500">คะแนน</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60">
+            <div class="text-xs text-slate-400">ตอบถูกทั้งหมด</div>
+            <div id="speed-summary-correct" class="text-lg sm:text-2xl font-black text-emerald-400 mt-1">0</div>
+            <div class="text-[10px] text-slate-500">ข้อ</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60">
+            <div class="text-xs text-slate-400">คอมโบสูงสุด</div>
+            <div id="speed-summary-combo" class="text-lg sm:text-2xl font-black text-amber-400 mt-1">0x</div>
+            <div class="text-[10px] text-slate-500">ข้อติดกัน</div>
+          </div>
+        </div>
+
+        <!-- New High Score Banner (if record broken) -->
+        <div id="speed-new-record-badge" class="p-3 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold" style="display: none;">
+          🎉 สถิติใหม่! ทำคะแนนสูงสุดครั้งใหม่สำเร็จ
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-3 pt-4">
+          <button id="btn-speed-restart" onclick="SpeedRun.start()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เล่นอีกรอบ">
+            ⚡ เล่นอีกรอบ
+          </button>
+          <button onclick="App.navigate('home')" class="px-6 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white font-bold text-xs sm:text-sm shadow-md focus:outline-none transition-transform active:scale-95" aria-label="กลับสู่หน้าหลัก">
+            🏠 กลับหน้าหลัก
+          </button>
+        </div>
+
+      </div>
+    </section>
+
 
     <!-- ========================================================================= -->
     <!-- VIEW 6: MISTAKE BANK & REVIEW (คลังคำที่ตอบผิด & ล้างแค้นคำยาก) -->
@@ -985,9 +1035,9 @@
           <div>
             <div class="flex justify-between text-xs font-medium text-slate-300 mb-1">
               <span>ระดับความดังเสียงเอฟเฟกต์:</span>
-              <span id="settings-sfx-volume-val" class="font-bold text-amber-400">30%</span>
+              <span id="settings-sfx-volume-val" class="font-bold text-amber-400">50%</span>
             </div>
-            <input type="range" id="settings-sfx-volume" min="0.05" max="1.0" step="0.05" value="0.3" oninput="document.getElementById('settings-sfx-volume-val').innerText = Math.round(this.value * 100) + '%'" class="w-full accent-indigo-500">
+            <input type="range" id="settings-sfx-volume" min="0.05" max="1.0" step="0.05" value="0.5" oninput="document.getElementById('settings-sfx-volume-val').innerText = Math.round(this.value * 100) + '%'" class="w-full accent-indigo-500">
           </div>
 
         </div>
@@ -1010,11 +1060,14 @@
         </div>
       </div>
 
-      <!-- Save Settings Button -->
-      <div>
+      <!-- Save Settings Button & Toast Notification -->
+      <div class="space-y-2">
         <button onclick="Settings.saveSettings()" class="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="บันทึกการตั้งค่า">
           💾 บันทึกการตั้งค่าทั้งหมด
         </button>
+        <div id="settings-save-success-msg" class="p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold text-center" style="display: none;" role="status">
+          ✓ บันทึกการตั้งค่าทั้งหมดเรียบร้อยแล้ว
+        </div>
       </div>
 
       <!-- Data Backup & Restore (Export / Import JSON) -->
@@ -1141,7 +1194,7 @@
     };
 
     /* =========================================================================
-       3. AUDIO & SPEECH SYNTHESIS ENGINE (WITH 4-STAGE SOFT TICKING SYNTHESIZER)
+       3. AUDIO & SPEECH SYNTHESIS ENGINE (WITH LOUDER 4-STAGE TICKING SYNTHESIZER)
        ========================================================================= */
     const AudioSys = {
       synth: window.speechSynthesis || null,
@@ -1150,7 +1203,7 @@
       selectedVoice: null,
       audioCtx: null,
       soundEnabled: true,
-      sfxVolume: 0.3,
+      sfxVolume: 0.5,
       speechRate: 1.0,
       autoPlaySpeech: true,
       isUnlocked: false,
@@ -1308,78 +1361,80 @@
         } catch(e) {}
       },
 
-      /* 4-Stage Soft Ticking Synthesizer (Zero Screen Reader Interruption) */
+      /* Louder & Richer 4-Stage Soft Ticking Synthesizer */
       playTick(intensity = 'slow') {
         if (!this.soundEnabled) return;
         this.initAudioCtx();
         if (!this.audioCtx) return;
         try {
           const now = this.audioCtx.currentTime;
+          const volMultiplier = Math.max(0.4, this.sfxVolume * 1.8);
+
           if (intensity === 'slow') {
-            // 60-40s: Soft gentle low wood-tick
+            // 60-40s: Crisp gentle wood-tick
             const osc = this.audioCtx.createOscillator();
             const gain = this.audioCtx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(320, now);
-            osc.frequency.exponentialRampToValueAtTime(120, now + 0.035);
-            gain.gain.setValueAtTime(this.sfxVolume * 0.22, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc.frequency.setValueAtTime(360, now);
+            osc.frequency.exponentialRampToValueAtTime(140, now + 0.045);
+            gain.gain.setValueAtTime(volMultiplier * 0.45, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
             osc.connect(gain);
             gain.connect(this.audioCtx.destination);
             osc.start(now);
-            osc.stop(now + 0.035);
+            osc.stop(now + 0.045);
           } else if (intensity === 'medium') {
-            // 40-20s: Medium crisp woodblock tick
+            // 40-20s: Crisp woodblock tick
             const osc = this.audioCtx.createOscillator();
             const gain = this.audioCtx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(480, now);
-            osc.frequency.exponentialRampToValueAtTime(180, now + 0.035);
-            gain.gain.setValueAtTime(this.sfxVolume * 0.32, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc.frequency.setValueAtTime(540, now);
+            osc.frequency.exponentialRampToValueAtTime(200, now + 0.045);
+            gain.gain.setValueAtTime(volMultiplier * 0.6, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
             osc.connect(gain);
             gain.connect(this.audioCtx.destination);
             osc.start(now);
-            osc.stop(now + 0.035);
+            osc.stop(now + 0.045);
           } else if (intensity === 'fast') {
             // 20-10s: Faster higher tick
             const osc = this.audioCtx.createOscillator();
             const gain = this.audioCtx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(650, now);
-            osc.frequency.exponentialRampToValueAtTime(250, now + 0.03);
-            gain.gain.setValueAtTime(this.sfxVolume * 0.38, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+            osc.frequency.setValueAtTime(750, now);
+            osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
+            gain.gain.setValueAtTime(volMultiplier * 0.75, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
             osc.connect(gain);
             gain.connect(this.audioCtx.destination);
             osc.start(now);
-            osc.stop(now + 0.03);
+            osc.stop(now + 0.04);
           } else if (intensity === 'dramatic') {
             // 10-0s: Fast dramatic urgent double-pulse with rising tension
             const osc1 = this.audioCtx.createOscillator();
             const gain1 = this.audioCtx.createGain();
             osc1.type = 'sawtooth';
-            osc1.frequency.setValueAtTime(850, now);
-            osc1.frequency.exponentialRampToValueAtTime(320, now + 0.035);
-            gain1.gain.setValueAtTime(this.sfxVolume * 0.45, now);
-            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+            osc1.frequency.setValueAtTime(950, now);
+            osc1.frequency.exponentialRampToValueAtTime(360, now + 0.045);
+            gain1.gain.setValueAtTime(volMultiplier * 0.85, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
             osc1.connect(gain1);
             gain1.connect(this.audioCtx.destination);
             osc1.start(now);
-            osc1.stop(now + 0.035);
+            osc1.stop(now + 0.045);
 
             // Pulse 2 (100ms later)
             const osc2 = this.audioCtx.createOscillator();
             const gain2 = this.audioCtx.createGain();
             osc2.type = 'triangle';
-            osc2.frequency.setValueAtTime(1100, now + 0.1);
-            osc2.frequency.exponentialRampToValueAtTime(450, now + 0.14);
-            gain2.gain.setValueAtTime(this.sfxVolume * 0.4, now + 0.1);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+            osc2.frequency.setValueAtTime(1250, now + 0.1);
+            osc2.frequency.exponentialRampToValueAtTime(500, now + 0.15);
+            gain2.gain.setValueAtTime(volMultiplier * 0.75, now + 0.1);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
             osc2.connect(gain2);
             gain2.connect(this.audioCtx.destination);
             osc2.start(now + 0.1);
-            osc2.stop(now + 0.14);
+            osc2.stop(now + 0.15);
           }
         } catch(e) {}
       },
@@ -1431,7 +1486,7 @@
         highScoreSpeed: 0,
         settings: {
           soundEnabled: true,
-          sfxVolume: 0.3,
+          sfxVolume: 0.5,
           speechRate: 1.0,
           autoPlaySpeech: true,
           selectedVoiceURI: '',
@@ -1559,7 +1614,7 @@
       applySettings() {
         const s = this.state.settings;
         AudioSys.soundEnabled = s.soundEnabled ?? true;
-        AudioSys.sfxVolume = s.sfxVolume ?? 0.3;
+        AudioSys.sfxVolume = s.sfxVolume ?? 0.5;
         AudioSys.speechRate = s.speechRate ?? 1.0;
         AudioSys.autoPlaySpeech = s.autoPlaySpeech ?? true;
         AudioSys.selectedVoiceURI = s.selectedVoiceURI || '';
@@ -1594,14 +1649,13 @@
               this.save();
               this.applySettings();
               App.updateHeaderStats();
-              alert(`กู้คืนข้อมูลสำเร็จ! ยินดีต้อนรับกลับ ${this.state.user.name}`);
-              Announcer.speak('นำเข้าข้อมูลสำเร็จ');
+              Announcer.speak(`กู้คืนข้อมูลสำเร็จ ยินดีต้อนรับกลับ ${this.state.user.name}`);
               App.navigate('home');
             } else {
-              alert('รูปแบบไฟล์ข้อมูลสำรองไม่ถูกต้อง');
+              Announcer.speak('รูปแบบไฟล์ข้อมูลสำรองไม่ถูกต้อง');
             }
           } catch(err) {
-            alert('เกิดข้อผิดพลาดในการอ่านไฟล์ JSON');
+            Announcer.speak('เกิดข้อผิดพลาดในการอ่านไฟล์ JSON');
           }
         };
         reader.readAsText(file);
@@ -2128,7 +2182,7 @@
     };
 
     /* =========================================================================
-       6. SPEED RUN (60-SECOND TIME ATTACK WITH 4-STAGE TICKING & FULL ACCESSIBILITY)
+       6. SPEED RUN (60-SECOND TIME ATTACK WITH IN-PAGE WEB SUMMARY & LOUD TICKING)
        ========================================================================= */
     const SpeedRun = {
       tier: 'ALL',
@@ -2136,6 +2190,8 @@
       timerInterval: null,
       score: 0,
       combo: 0,
+      maxCombo: 0,
+      correctCount: 0,
       currentWord: null,
       currentOptions: [],
       focusedOptionIndex: 0,
@@ -2159,6 +2215,8 @@
         this.timeLeft = 60;
         this.score = 0;
         this.combo = 0;
+        this.maxCombo = 0;
+        this.correctCount = 0;
         this.focusedOptionIndex = 0;
 
         App.showView('speed-play');
@@ -2170,7 +2228,7 @@
           this.timeLeft -= 1;
           this.updateHUD();
 
-          // 4-Stage Soft Ticking Synthesizer (Zero Screen Reader Verbal Spam):
+          // 4-Stage Louder Soft Ticking (Zero Screen Reader Verbal Spam):
           if (this.timeLeft > 40) {
             // 60-40s: Tick slow (every 2s)
             if (this.timeLeft % 2 === 0) {
@@ -2277,7 +2335,7 @@
           container.appendChild(btn);
         });
 
-        // Announce question prompt concisely to Screen Reader (No choices repeated)
+        // Announce question prompt concisely to Screen Reader
         this.reannounceQuestion();
 
         // Initial focus routing to first option
@@ -2322,7 +2380,11 @@
 
         if (isCorrect) {
           this.score += 10 + (this.combo * 2);
+          this.correctCount += 1;
           this.combo += 1;
+          if (this.combo > this.maxCombo) {
+            this.maxCombo = this.combo;
+          }
           AudioSys.playCorrect();
 
           if (this.combo % 5 === 0) {
@@ -2341,14 +2403,26 @@
         clearInterval(this.timerInterval);
         AudioSys.playVictory();
 
-        if (this.score > (StorageSys.state.highScoreSpeed || 0)) {
+        const isNewRecord = this.score > (StorageSys.state.highScoreSpeed || 0);
+        if (isNewRecord) {
           StorageSys.state.highScoreSpeed = this.score;
           StorageSys.save();
         }
 
-        alert(`หมดเวลา! คุณทำคะแนนได้: ${this.score} คะแนน`);
-        Announcer.speak(`หมดเวลา การแข่งขันสิ้นสุด ได้คะแนน ${this.score}`);
-        App.navigate('home');
+        // Show dedicated in-page Web Summary (No window prompt)
+        App.showView('speed-summary');
+
+        document.getElementById('speed-summary-score').textContent = this.score;
+        document.getElementById('speed-summary-correct').textContent = this.correctCount;
+        document.getElementById('speed-summary-combo').textContent = `${this.maxCombo}x`;
+        document.getElementById('speed-new-record-badge').style.display = isNewRecord && this.score > 0 ? 'block' : 'none';
+
+        Announcer.speak(`หมดเวลาการแข่งขัน ได้คะแนน ${this.score} คะแนน ตอบถูก ${this.correctCount} ข้อ${isNewRecord && this.score > 0 ? ' สถิติใหม่!' : ''}`, 'assertive');
+
+        setTimeout(() => {
+          const restartBtn = document.getElementById('btn-speed-restart');
+          if (restartBtn) restartBtn.focus();
+        }, 80);
       },
 
       exit() {
@@ -2568,7 +2642,7 @@
     };
 
     /* =========================================================================
-       9. SETTINGS UI CONTROLLER
+       9. SETTINGS UI CONTROLLER (NO WINDOW PROMPT)
        ========================================================================= */
     const Settings = {
       populate() {
@@ -2580,8 +2654,8 @@
         document.getElementById('settings-speech-rate').value = s.speechRate ?? 1.0;
         document.getElementById('settings-speech-rate-val').innerText = (s.speechRate ?? 1.0) + 'x';
         document.getElementById('settings-sound-sfx').checked = s.soundEnabled ?? true;
-        document.getElementById('settings-sfx-volume').value = s.sfxVolume ?? 0.3;
-        document.getElementById('settings-sfx-volume-val').innerText = Math.round((s.sfxVolume ?? 0.3) * 100) + '%';
+        document.getElementById('settings-sfx-volume').value = s.sfxVolume ?? 0.5;
+        document.getElementById('settings-sfx-volume-val').innerText = Math.round((s.sfxVolume ?? 0.5) * 100) + '%';
         document.getElementById('settings-high-contrast').checked = s.highContrast ?? false;
         AudioSys.populateVoiceSelect();
       },
@@ -2594,7 +2668,7 @@
         s.autoPlaySpeech = document.getElementById('settings-autoplay-speech').checked;
         s.speechRate = parseFloat(document.getElementById('settings-speech-rate').value) || 1.0;
         s.soundEnabled = document.getElementById('settings-sound-sfx').checked;
-        s.sfxVolume = parseFloat(document.getElementById('settings-sfx-volume').value) || 0.3;
+        s.sfxVolume = parseFloat(document.getElementById('settings-sfx-volume').value) || 0.5;
         s.highContrast = document.getElementById('settings-high-contrast').checked;
         
         const voiceSelect = document.getElementById('settings-voice-select');
@@ -2607,7 +2681,12 @@
         StorageSys.save();
         StorageSys.applySettings();
         App.updateHeaderStats();
-        alert('บันทึกการตั้งค่าเรียบร้อยแล้ว!');
+
+        const successMsg = document.getElementById('settings-save-success-msg');
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          setTimeout(() => { successMsg.style.display = 'none'; }, 3000);
+        }
         Announcer.speak('บันทึกการตั้งค่าเรียบร้อยแล้ว');
       }
     };
@@ -2676,7 +2755,7 @@
 
       showView(viewName) {
         this.currentView = viewName;
-        const views = ['home', 'quiz', 'summary', 'speed-setup', 'speed-play', 'mistakes', 'dict', 'settings'];
+        const views = ['home', 'quiz', 'summary', 'speed-setup', 'speed-play', 'speed-summary', 'mistakes', 'dict', 'settings'];
         views.forEach(v => {
           const el = document.getElementById(`view-${v}`);
           if (el) el.style.display = 'none';
