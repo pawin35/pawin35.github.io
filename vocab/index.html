@@ -61,7 +61,7 @@
     
     :focus-visible {
       outline: 3px solid #f59e0b !important;
-      outline-offset: 2px !important;
+      outline-offset: 3px !important;
     }
 
     /* High contrast mode enhancements */
@@ -546,13 +546,19 @@
           </div>
         </div>
 
-        <!-- Interactive Audio & Hint Controls -->
-        <div class="flex items-center justify-center gap-3 pt-2">
+        <!-- Interactive Audio, Re-Read & Hint Controls -->
+        <div class="flex items-center justify-center gap-2 sm:gap-3 pt-2 flex-wrap">
           
-          <!-- Audio Pronunciation Button -->
-          <button id="btn-quiz-speak" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่านคำศัพท์ (คีย์ลัด Space หรือ R)">
+          <!-- Re-read / Re-announce Question Button -->
+          <button id="btn-quiz-reannounce" onclick="Quiz.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์และตัวเลือกซ้ำทั้งหมด (คีย์ลัด Q)">
+            <span aria-hidden="true">📢</span>
+            <span>อ่านโจทย์ซ้ำ (Q)</span>
+          </button>
+
+          <!-- Audio Pronunciation Button (Hidden in th_to_eng to prevent answer spoiler) -->
+          <button id="btn-quiz-speak" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่านคำศัพท์ (คีย์ลัด R)">
             <span id="quiz-speak-icon" class="text-base" aria-hidden="true">🔊</span>
-            <span>ฟังเสียง (Space / R)</span>
+            <span id="quiz-speak-label">ฟังเสียง (R)</span>
           </button>
 
           <!-- Hint Button -->
@@ -570,9 +576,14 @@
 
       </article>
 
-      <!-- 4 Multiple Choice Options -->
-      <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="ตัวเลือกคำตอบ 4 ข้อ">
+      <!-- 4 Multiple Choice Options (WAI-ARIA Radio Group with Arrow Key Navigation) -->
+      <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="ตัวเลือกคำตอบ 4 ข้อ (ใช้ปุ่มลูกศรขึ้น/ลง เพื่อเลื่อนตัวเลือก หรือกดเลข 1 ถึง 4 เพื่อตอบ)">
         <!-- Dynamically rendered options -->
+      </div>
+
+      <!-- In-Quiz Keyboard Help Bar -->
+      <div class="p-2.5 rounded-xl bg-slate-800/40 border border-slate-700/40 text-center text-xs text-slate-400">
+        ⌨️ <strong>คีย์ลัด:</strong> <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">↑</kbd><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">↓</kbd> เปลี่ยนตัวเลือก • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">1</kbd>-<kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">4</kbd> เลือกข้อ • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">Q</kbd> ฟังโจทย์ซ้ำ • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">R</kbd> ฟังเสียง • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">Enter</kbd> ตอบ/ไปต่อ
       </div>
 
       <!-- Instant Feedback & Explanation Panel (Shown upon answering) -->
@@ -597,11 +608,16 @@
         </div>
 
         <!-- Full Word Detail Card -->
-        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-700/60 text-xs text-slate-300 space-y-1">
-          <div class="flex items-center gap-2 font-bold text-white text-sm">
-            <span id="fb-detail-word" lang="en">ability</span>
-            <span id="fb-detail-pos" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-normal">n.</span>
-            <span class="text-amber-400 font-normal" id="fb-detail-reading" lang="th">เออะ บิ้ เหลอะ ที</span>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-700/60 text-xs text-slate-300 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 font-bold text-white text-sm">
+              <span id="fb-detail-word" lang="en">ability</span>
+              <span id="fb-detail-pos" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-normal">n.</span>
+              <span class="text-amber-400 font-normal" id="fb-detail-reading" lang="th">เออะ บิ้ เหลอะ ที</span>
+            </div>
+            <button onclick="AudioSys.speakWord(document.getElementById('fb-detail-word').textContent)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1" aria-label="ฟังเสียงอ่านคำศัพท์นี้">
+              🔊 ฟังเสียง
+            </button>
           </div>
           <div class="text-slate-300 font-medium text-sm" lang="th">
             ความหมาย: <span id="fb-detail-meaning" class="text-white font-bold">ความสามารถ</span>
@@ -936,7 +952,7 @@
           <div class="flex items-center justify-between">
             <div>
               <span class="font-medium text-white block">เล่นเสียงอ่านอัตโนมัติเมื่อเริ่มข้อใหม่</span>
-              <span class="text-xs text-slate-400">ระบบจะออกเสียงคำศัพท์ทันทีเมื่อขึ้นโจทย์ใหม่</span>
+              <span class="text-xs text-slate-400">ระบบจะออกเสียงคำศัพท์ทันทีเมื่อขึ้นโจทย์ใหม่ (เฉพาะโจทย์ภาษาอังกฤษ)</span>
             </div>
             <input type="checkbox" id="settings-autoplay-speech" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
           </div>
@@ -988,12 +1004,14 @@
 
           <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-700/60 text-slate-300 space-y-1.5 text-xs">
             <div class="font-bold text-amber-300">📌 คีย์ลัดสำหรับการเข้าถึง (Keyboard Shortcuts):</div>
-            <ul class="list-disc list-inside space-y-0.5 text-slate-300">
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">1</kbd> - <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">4</kbd> หรือ <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">A</kbd> - <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">D</kbd>: เลือกคำตอบ</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Space</kbd> หรือ <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">R</kbd>: เล่นเสียงอ่านคำศัพท์</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">H</kbd>: เปิด/ปิด คำใบ้</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Enter</kbd>: ไปข้อถัดไป / เริ่มทำแบบทดสอบ</li>
-              <li><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono">Esc</kbd>: ปิดหน้าต่าง / ออกจากแบบทดสอบ</li>
+            <ul class="list-disc list-inside space-y-1 text-slate-300 leading-relaxed">
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">↑</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">↓</kbd> หรือ <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">→</kbd>: เลื่อนตัวเลือกคำตอบ</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">1</kbd> - <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">4</kbd> หรือ <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">A</kbd> - <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">D</kbd>: เลือกข้อคำตอบโดยตรง</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Q</kbd>: อ่านโจทย์และตัวเลือกซ้ำทั้งหมด (Re-read Question)</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">R</kbd>: ฟังเสียงอ่านคำศัพท์ภาษาอังกฤษ</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">H</kbd>: เปิด/ปิด คำใบ้</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Enter</kbd>: ยืนยันคำตอบ / ไปข้อถัดไป / เริ่มทำแบบทดสอบ</li>
+              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Esc</kbd>: ปิดหน้าต่าง / ออกจากแบบทดสอบ</li>
             </ul>
           </div>
         </div>
@@ -1098,12 +1116,10 @@
       /* Pick 3 distractors sharing the same Part of Speech */
       getDistractors(target, pool, count = 3) {
         const targetPos = target.pos || [];
-        // Match same POS if possible
         let matched = pool.filter(w => w.id !== target.id && w.pos.some(p => targetPos.includes(p)));
         if (matched.length < count) {
           matched = pool.filter(w => w.id !== target.id);
         }
-        // Shuffle & take 3
         const shuffled = [...matched].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, count);
       }
@@ -1132,7 +1148,7 @@
     };
 
     /* =========================================================================
-       3. AUDIO & SPEECH SYNTHESIS ENGINE (ROBUST MULTI-PLATFORM)
+       3. AUDIO & SPEECH SYNTHESIS ENGINE
        ========================================================================= */
     const AudioSys = {
       synth: window.speechSynthesis || null,
@@ -1156,7 +1172,6 @@
           setTimeout(() => this.loadVoices(), 1500);
         }
 
-        // Unlock audio on first user gesture (critical for iOS Safari & Android Chrome)
         const unlock = () => {
           if (this.isUnlocked) return;
           this.initAudioCtx();
@@ -1301,21 +1316,21 @@
       },
 
       playCorrect() {
-        this.playTone(523.25, 'triangle', 0.1, 0);     // C5
-        this.playTone(659.25, 'triangle', 0.18, 0.08); // E5
-        this.playTone(783.99, 'triangle', 0.25, 0.16); // G5
+        this.playTone(523.25, 'triangle', 0.1, 0);
+        this.playTone(659.25, 'triangle', 0.18, 0.08);
+        this.playTone(783.99, 'triangle', 0.25, 0.16);
       },
 
       playWrong() {
-        this.playTone(220, 'sawtooth', 0.15, 0);    // A3
-        this.playTone(185, 'sawtooth', 0.25, 0.12); // F#3
+        this.playTone(220, 'sawtooth', 0.15, 0);
+        this.playTone(185, 'sawtooth', 0.25, 0.12);
       },
 
       playCombo() {
-        this.playTone(587.33, 'triangle', 0.1, 0);     // D5
-        this.playTone(739.99, 'triangle', 0.1, 0.07);  // F#5
-        this.playTone(880.00, 'triangle', 0.15, 0.14); // A5
-        this.playTone(1174.66, 'triangle', 0.25, 0.21);// D6
+        this.playTone(587.33, 'triangle', 0.1, 0);
+        this.playTone(739.99, 'triangle', 0.1, 0.07);
+        this.playTone(880.00, 'triangle', 0.15, 0.14);
+        this.playTone(1174.66, 'triangle', 0.25, 0.21);
       },
 
       playVictory() {
@@ -1532,7 +1547,7 @@
     };
 
     /* =========================================================================
-       5. QUIZ ENGINE (WITH ACCESSIBLE MODAL & INSTANT START)
+       5. QUIZ ENGINE (ACCESSIBLE RADIO GROUP, ANTI-SPOILER, RE-READ)
        ========================================================================= */
     const Quiz = {
       tier: 'A1',
@@ -1547,16 +1562,17 @@
       totalXPEarned: 0,
       sessionMistakes: [],
       answered: false,
+      focusedOptionIndex: 0,
       triggerElement: null,
       isModalOpen: false,
 
-      /* Instant 1-click start (Zero friction!) */
+      /* Instant 1-click start */
       startInstant(tier) {
         this.tier = tier;
         this.startSession();
       },
 
-      /* Open Customization Modal with Complete Focus Routing & Trap */
+      /* Open Customization Modal */
       openSetup(tier, triggerBtn) {
         this.tier = tier;
         this.triggerElement = triggerBtn || document.activeElement;
@@ -1565,18 +1581,15 @@
         const tierName = tier === 'ALL' ? 'คละทุกระดับ (A1–B2 รวม 3,146 คำ)' : `ระดับ: ${tier}`;
         document.getElementById('setup-modal-tier-desc').textContent = tierName;
         
-        // Sync UI with current settings
         this.setWordCount(this.wordCount);
         this.setQuestionFormat(this.questionFormat);
 
-        // Hide background from screen reader
         document.getElementById('main-content').setAttribute('aria-hidden', 'true');
         document.getElementById('app-header').setAttribute('aria-hidden', 'true');
 
         const modal = document.getElementById('modal-quiz-setup');
         modal.style.display = 'flex';
 
-        // Route focus directly to modal heading
         setTimeout(() => {
           const title = document.getElementById('setup-modal-title');
           if (title) title.focus();
@@ -1590,11 +1603,9 @@
         const modal = document.getElementById('modal-quiz-setup');
         modal.style.display = 'none';
 
-        // Unhide background
         document.getElementById('main-content').removeAttribute('aria-hidden');
         document.getElementById('app-header').removeAttribute('aria-hidden');
 
-        // Restore focus to trigger button
         if (this.triggerElement && typeof this.triggerElement.focus === 'function') {
           this.triggerElement.focus();
         }
@@ -1661,6 +1672,7 @@
         }
 
         this.answered = false;
+        this.focusedOptionIndex = 0;
         const target = this.queue[this.currentIndex];
         const pool = VocabDB.getPool(this.tier);
         const distractors = VocabDB.getDistractors(target, pool, 3);
@@ -1668,7 +1680,7 @@
         let qType = this.questionFormat;
         if (qType === 'mixed') {
           const rand = Math.random();
-          if (rand < 0.5) qType = 'eng_to_th';
+          if (rand < 0.45) qType = 'eng_to_th';
           else if (rand < 0.8) qType = 'th_to_eng';
           else qType = 'listening';
         }
@@ -1697,12 +1709,13 @@
         document.getElementById('quiz-feedback-panel').style.display = 'none';
         document.getElementById('quiz-hint-box').style.display = 'none';
 
-        // Populate Target Display
+        // Target Display Elements
         const promptEl = document.getElementById('quiz-question-prompt');
         const targetWordEl = document.getElementById('quiz-target-word');
         const phoneticsEl = document.getElementById('quiz-target-phonetics');
         const readingEl = document.getElementById('quiz-target-reading');
         const ipaEl = document.getElementById('quiz-target-ipa');
+        const speakBtn = document.getElementById('btn-quiz-speak');
 
         if (qType === 'eng_to_th') {
           promptEl.textContent = 'เลือกความหมายภาษาไทยที่ถูกต้องสำหรับคำนี้:';
@@ -1711,6 +1724,8 @@
           readingEl.textContent = target.reading;
           ipaEl.textContent = `/${target.ipa}/`;
           phoneticsEl.style.display = 'flex';
+          speakBtn.style.display = 'inline-flex';
+          speakBtn.disabled = false;
         } else if (qType === 'th_to_eng') {
           promptEl.textContent = 'เลือกคำศัพท์ภาษาอังกฤษที่ตรงกับความหมายนี้:';
           targetWordEl.textContent = target.meaning;
@@ -1718,14 +1733,18 @@
           readingEl.textContent = `ประเภทคำ: ${target.pos_raw}`;
           ipaEl.textContent = '';
           phoneticsEl.style.display = 'flex';
+          // In th_to_eng, HIDE speech button during question to avoid spoiling the answer!
+          speakBtn.style.display = 'none';
         } else {
           // Listening Mode
           promptEl.textContent = 'ฟังเสียงอ่าน แล้วเลือกคำศัพท์ภาษาอังกฤษที่ถูกต้อง:';
-          targetWordEl.textContent = '🔊 [กดฟังเสียง]';
+          targetWordEl.textContent = '🔊 [ฟังเสียงอ่าน]';
           targetWordEl.setAttribute('lang', 'th');
           readingEl.textContent = 'คำอ่าน: ' + target.reading;
           ipaEl.textContent = '';
           phoneticsEl.style.display = 'flex';
+          speakBtn.style.display = 'inline-flex';
+          speakBtn.disabled = false;
         }
 
         // Build Options
@@ -1745,7 +1764,7 @@
         options.sort(() => 0.5 - Math.random());
         this.currentQuestion.options = options;
 
-        // Render Option Buttons
+        // Render Option Buttons with WAI-ARIA Radio Group & Roving Tabindex
         const optionsContainer = document.getElementById('quiz-options-container');
         optionsContainer.innerHTML = '';
         const optionKeys = ['1', '2', '3', '4'];
@@ -1757,7 +1776,8 @@
           btn.id = `quiz-opt-${idx}`;
           btn.className = `game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-indigo-500 text-white font-medium text-left flex items-center justify-between gap-3 shadow-lg focus:outline-none transition-all`;
           btn.setAttribute('role', 'radio');
-          btn.setAttribute('aria-checked', 'false');
+          btn.setAttribute('aria-checked', idx === 0 ? 'true' : 'false');
+          btn.tabIndex = idx === 0 ? 0 : -1;
           btn.setAttribute('aria-label', `ตัวเลือกที่ ${idx + 1}: ${opt.text} (กด ${idx + 1})`);
           
           btn.innerHTML = `
@@ -1768,31 +1788,82 @@
             <kbd class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono border border-slate-700" aria-hidden="true">${optionKeys[idx]}</kbd>
           `;
 
+          // Click / Enter / Space handler
           btn.onclick = () => this.handleAnswer(idx);
+
+          // Arrow Key Navigation between Radios
+          btn.onkeydown = (e) => {
+            if (['ArrowDown', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+              Quiz.focusOption((idx + 1) % 4);
+            } else if (['ArrowUp', 'ArrowLeft'].includes(e.key)) {
+              e.preventDefault();
+              Quiz.focusOption((idx + 3) % 4);
+            }
+          };
+
           optionsContainer.appendChild(btn);
         });
 
-        // Auto-play pronunciation if enabled
+        // Auto-play pronunciation only in eng_to_th or listening (NEVER in th_to_eng!)
         if (AudioSys.autoPlaySpeech && (qType === 'eng_to_th' || qType === 'listening')) {
           setTimeout(() => AudioSys.speakWord(target.word), 300);
         }
 
         // Announce question to Screen Reader
-        let announceText = `ข้อที่ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
-        if (qType === 'eng_to_th') {
-          announceText += `คำว่า ${target.word}, ประเภทคำ ${target.pos_raw}, ความหมายคืออะไร`;
-        } else if (qType === 'th_to_eng') {
-          announceText += `ความหมาย ${target.meaning}, ประเภทคำ ${target.pos_raw}, คำศัพท์ภาษาอังกฤษคืออะไร`;
-        } else {
-          announceText += `โหมดฟังเสียง, เลือกคำศัพท์ที่ตรงกับการออกเสียง`;
-        }
-        Announcer.speak(announceText);
+        this.reannounceQuestion();
 
-        // Immediate focus routing to first option
+        // Initial focus routing to first option
         setTimeout(() => {
           const firstOpt = document.getElementById('quiz-opt-0');
           if (firstOpt) firstOpt.focus();
-        }, 60);
+        }, 80);
+      },
+
+      /* Arrow Key Roving Tabindex in Radio Group */
+      focusOption(newIdx) {
+        if (this.answered) return;
+        this.focusedOptionIndex = newIdx;
+        for (let i = 0; i < 4; i++) {
+          const b = document.getElementById(`quiz-opt-${i}`);
+          if (b) {
+            const isCurrent = (i === newIdx);
+            b.tabIndex = isCurrent ? 0 : -1;
+            b.setAttribute('aria-checked', isCurrent ? 'true' : 'false');
+            if (isCurrent) {
+              b.focus();
+            }
+          }
+        }
+      },
+
+      /* Re-hear / Re-announce Question (Shortcut: Q) */
+      reannounceQuestion() {
+        if (!this.currentQuestion || !this.currentQuestion.target) return;
+        const target = this.currentQuestion.target;
+        const qType = this.currentQuestion.type;
+        const opts = this.currentQuestion.options;
+
+        let text = `ข้อที่ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
+        if (qType === 'eng_to_th') {
+          text += `คำว่า "${target.word}", ประเภทคำ ${target.pos_raw}, ความหมายคืออะไร. `;
+        } else if (qType === 'th_to_eng') {
+          text += `ความหมาย "${target.meaning}", ประเภทคำ ${target.pos_raw}, คำศัพท์ภาษาอังกฤษคืออะไร. `;
+        } else {
+          text += `โหมดฟังเสียง, เลือกคำศัพท์ภาษาอังกฤษที่ตรงกับการออกเสียง. `;
+        }
+
+        opts.forEach((o, i) => {
+          text += `ตัวเลือกที่ ${i + 1}: ${o.text}. `;
+        });
+
+        text += `(กดลูกศรขึ้นหรือลงเพื่อเปลี่ยนตัวเลือก, หรือกดเลข 1 ถึง 4 เพื่อตอบ)`;
+
+        Announcer.speak(text, 'assertive');
+
+        if (qType === 'eng_to_th' || qType === 'listening') {
+          setTimeout(() => AudioSys.speakWord(target.word), 400);
+        }
       },
 
       handleAnswer(selectedIndex) {
@@ -1862,7 +1933,7 @@
           Announcer.speak(`ตอบผิด! คำตอบที่ถูกต้องคือ ${target.word} หมายถึง ${target.meaning}`, 'assertive');
         }
 
-        // Populate detail breakdown
+        // Detail breakdown
         document.getElementById('fb-detail-word').textContent = target.word;
         document.getElementById('fb-detail-pos').textContent = target.pos_raw;
         document.getElementById('fb-detail-reading').textContent = target.reading;
@@ -1870,11 +1941,11 @@
 
         feedbackPanel.style.display = 'block';
 
-        // Automatically route focus to "Next Question" button
+        // Auto focus Next button
         setTimeout(() => {
           const nextBtn = document.getElementById('btn-quiz-next');
           if (nextBtn) nextBtn.focus();
-        }, 50);
+        }, 60);
       },
 
       nextQuestion() {
@@ -1882,11 +1953,16 @@
         this.renderQuestion();
       },
 
+      /* Speak target word (Guarded against spoiler in th_to_eng) */
       speakCurrentWord() {
-        if (this.currentQuestion && this.currentQuestion.target) {
-          AudioSys.speakWord(this.currentQuestion.target.word);
-          Announcer.speak(`กำลังเล่นเสียงอ่านคำว่า ${this.currentQuestion.target.word}`);
+        if (!this.currentQuestion || !this.currentQuestion.target) return;
+        const qType = this.currentQuestion.type;
+        if (qType === 'th_to_eng' && !this.answered) {
+          Announcer.speak('โหมดความหมายภาษาไทย ไม่สามารถฟังเสียงอ่านคำศัพท์ภาษาอังกฤษได้ก่อนตอบ เพื่อไม่ให้เป็นการเฉลย', 'assertive');
+          return;
         }
+        AudioSys.speakWord(this.currentQuestion.target.word);
+        Announcer.speak(`กำลังเล่นเสียงอ่านคำว่า ${this.currentQuestion.target.word}`);
       },
 
       toggleHint() {
@@ -2473,7 +2549,6 @@
           }
 
           if (e.key === 'Enter') {
-            // If Enter pressed inside modal and not on cancel button, start session immediately!
             if (e.target.tagName !== 'BUTTON' || e.target.id === 'btn-setup-start-confirm') {
               e.preventDefault();
               Quiz.startSession();
@@ -2505,35 +2580,62 @@
 
       bindKeyboardShortcuts() {
         window.addEventListener('keydown', (e) => {
-          // Ignore typing in inputs or when modal is open
+          // Ignore typing in text inputs or when modal is open
           if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
           if (Quiz.isModalOpen) return;
 
           // In Quiz Arena
           if (this.currentView === 'quiz' && document.getElementById('view-quiz').style.display !== 'none') {
+            
+            // 1-4 or A-D: Choose option directly
             if (['1', '2', '3', '4'].includes(e.key)) {
               e.preventDefault();
               const idx = parseInt(e.key) - 1;
               Quiz.handleAnswer(idx);
+              return;
             } else if (['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'].includes(e.key)) {
               e.preventDefault();
               const map = { a: 0, b: 1, c: 2, d: 3 };
               const idx = map[e.key.toLowerCase()];
               Quiz.handleAnswer(idx);
-            } else if (e.key === ' ' || e.key === 'r' || e.key === 'R') {
+              return;
+            }
+
+            // Q or Alt+Q: Re-read / Re-announce Question & choices
+            if (e.key === 'q' || e.key === 'Q') {
+              e.preventDefault();
+              Quiz.reannounceQuestion();
+              return;
+            }
+
+            // R or Alt+R: Play English pronunciation
+            if (e.key === 'r' || e.key === 'R') {
               e.preventDefault();
               Quiz.speakCurrentWord();
-            } else if (e.key === 'h' || e.key === 'H') {
+              return;
+            }
+
+            // H or Alt+H: Toggle hint
+            if (e.key === 'h' || e.key === 'H') {
               e.preventDefault();
               Quiz.toggleHint();
-            } else if (e.key === 'Enter') {
+              return;
+            }
+
+            // Enter: Next question if answered
+            if (e.key === 'Enter') {
               if (Quiz.answered) {
                 e.preventDefault();
                 Quiz.nextQuestion();
+                return;
               }
-            } else if (e.key === 'Escape') {
+            }
+
+            // Escape: Exit quiz
+            if (e.key === 'Escape') {
               e.preventDefault();
               Quiz.exitQuiz();
+              return;
             }
           }
 
@@ -2549,7 +2651,6 @@
       }
     };
 
-    // Initialize on window load
     window.addEventListener('DOMContentLoaded', () => {
       App.init();
     });
