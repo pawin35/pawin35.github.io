@@ -128,13 +128,13 @@
 </head>
 <body class="h-full bg-slate-900 text-slate-100 antialiased flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-200">
 
-  <!-- Screen Reader Announcements (ARIA Live Regions) -->
+  <!-- Screen Reader Announcements (ARIA Live & Alert Regions) -->
   <div id="sr-announcer-polite" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-  <div id="sr-announcer-assertive" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+  <div id="sr-announcer-assertive" class="sr-only" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
   <!-- Skip Navigation Link for Accessibility -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-amber-400 focus:text-slate-900 focus:font-bold focus:rounded-lg focus:shadow-xl">
-    ข้ามไปยังเนื้อหาหลัก (Skip to Content)
+    ข้ามไปยังเนื้อหาหลัก
   </a>
 
   <!-- Confetti Canvas for Victory Effects -->
@@ -146,7 +146,7 @@
       
       <!-- Brand & Level Info -->
       <div class="flex items-center gap-3">
-        <button id="btn-header-home" onclick="App.navigate('home')" class="flex items-center gap-2.5 text-left group focus:outline-none rounded-lg p-1" aria-label="กลับสู่หน้าหลัก คำศัพท์ Oxford 3000/5000">
+        <button id="btn-header-home" onclick="App.navigate('home')" class="flex items-center gap-2.5 text-left group focus:outline-none rounded-lg p-1" aria-label="กลับสู่หน้าหลัก">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-amber-500 flex items-center justify-center text-xl shadow-lg group-hover:scale-105 transition-transform" aria-hidden="true">
             ⚔️
           </div>
@@ -166,7 +166,7 @@
       <div class="flex items-center gap-2 sm:gap-4">
         
         <!-- Streak Counter -->
-        <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-lg border border-slate-700/60 shadow-sm" title="สถิติต่อเนื่องรายวัน" aria-label="สถิติต่อเนื่องรายวัน">
+        <div class="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-lg border border-slate-700/60 shadow-sm" title="สถิติต่อเนื่องรายวัน">
           <span class="text-base sm:text-lg" aria-hidden="true">🔥</span>
           <div class="text-xs">
             <span id="stat-streak-count" class="font-bold text-orange-400">0</span>
@@ -175,7 +175,7 @@
         </div>
 
         <!-- Total XP -->
-        <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 shadow-sm" title="ค่าประสบการณ์ทั้งหมด" aria-label="ค่าประสบการณ์ทั้งหมด">
+        <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 shadow-sm" title="ค่าประสบการณ์ทั้งหมด">
           <span class="text-base sm:text-lg" aria-hidden="true">⭐</span>
           <div class="text-xs">
             <span id="stat-total-xp" class="font-extrabold text-amber-400">0</span>
@@ -258,7 +258,7 @@
           <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
             <span>🎯</span> เลือกระดับความยากที่ต้องการฝึก
           </h2>
-          <span class="text-xs text-slate-400">คลิกเริ่มทันที 1 คลิก หรือกดปรับแต่งรอบนี้</span>
+          <span class="text-xs text-slate-400">เริ่มฝึกทันที หรือกดปรับแต่ง</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -274,10 +274,10 @@
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์พื้นฐานสำคัญที่สุดสำหรับการสื่อสารในชีวิตประจำวัน</p>
             </div>
             <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <button onclick="Quiz.startInstant('A1')" class="flex-1 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ A1 ทันที 10 ข้อ">
+              <button onclick="Quiz.startInstant('A1')" class="flex-1 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกระดับ A1">
                 เริ่มฝึก A1 🚀
               </button>
-              <button onclick="Quiz.openSetup('A1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ A1" title="ปรับแต่งรอบนี้">
+              <button onclick="Quiz.openSetup('A1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งระดับ A1" title="ปรับแต่ง">
                 ⚙️
               </button>
             </div>
@@ -294,10 +294,10 @@
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์สำหรับการสนทนา ข้อมูลส่วนตัว และงานประจำ</p>
             </div>
             <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <button onclick="Quiz.startInstant('A2')" class="flex-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ A2 ทันที 10 ข้อ">
+              <button onclick="Quiz.startInstant('A2')" class="flex-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกระดับ A2">
                 เริ่มฝึก A2 🚀
               </button>
-              <button onclick="Quiz.openSetup('A2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ A2" title="ปรับแต่งรอบนี้">
+              <button onclick="Quiz.openSetup('A2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งระดับ A2" title="ปรับแต่ง">
                 ⚙️
               </button>
             </div>
@@ -314,10 +314,10 @@
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์สำหรับอธิบายเหตุการณ์ ความคิดเห็น และการทำงาน</p>
             </div>
             <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <button onclick="Quiz.startInstant('B1')" class="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ B1 ทันที 10 ข้อ">
+              <button onclick="Quiz.startInstant('B1')" class="flex-1 px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกระดับ B1">
                 เริ่มฝึก B1 🚀
               </button>
-              <button onclick="Quiz.openSetup('B1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ B1" title="ปรับแต่งรอบนี้">
+              <button onclick="Quiz.openSetup('B1', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งระดับ B1" title="ปรับแต่ง">
                 ⚙️
               </button>
             </div>
@@ -334,10 +334,10 @@
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">คำศัพท์เชิงวิชาการ การวิเคราะห์ และหัวข้อเฉพาะทาง</p>
             </div>
             <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <button onclick="Quiz.startInstant('B2')" class="flex-1 px-3 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกฝนระดับ B2 ทันที 10 ข้อ">
+              <button onclick="Quiz.startInstant('B2')" class="flex-1 px-3 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md focus:outline-none transition-transform active:scale-95 text-center" aria-label="เริ่มฝึกระดับ B2">
                 เริ่มฝึก B2 🚀
               </button>
-              <button onclick="Quiz.openSetup('B2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งการฝึกระดับ B2" title="ปรับแต่งรอบนี้">
+              <button onclick="Quiz.openSetup('B2', this)" class="p-2 rounded-xl bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 focus:outline-none" aria-label="ปรับแต่งระดับ B2" title="ปรับแต่ง">
                 ⚙️
               </button>
             </div>
@@ -357,10 +357,10 @@
             </div>
           </div>
           <div class="flex items-center gap-2 w-full sm:w-auto">
-            <button onclick="Quiz.startInstant('ALL')" class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 whitespace-nowrap" aria-label="เริ่มฝึกฝนแบบผสมทุกระดับ A1 ถึง B2 ทันที 10 ข้อ">
+            <button onclick="Quiz.startInstant('ALL')" class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 whitespace-nowrap" aria-label="เริ่มฝึกคละระดับ">
               เริ่มฝึกคละระดับ 🎲
             </button>
-            <button onclick="Quiz.openSetup('ALL', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 focus:outline-none" aria-label="ปรับแต่งการฝึกแบบผสมทุกระดับ" title="ปรับแต่งรอบนี้">
+            <button onclick="Quiz.openSetup('ALL', this)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 focus:outline-none" aria-label="ปรับแต่งการฝึกคละระดับ" title="ปรับแต่ง">
               ⚙️
             </button>
           </div>
@@ -419,9 +419,9 @@
             <h2 id="setup-modal-title" tabindex="-1" class="text-xl font-bold text-white flex items-center gap-2 focus:outline-none">
               <span>⚙️</span> ตั้งค่าการฝึกฝน
             </h2>
-            <p id="setup-modal-tier-desc" class="text-xs text-indigo-400 mt-0.5 font-medium">ระดับ: A1 (747 คำ)</p>
+            <p id="setup-modal-tier-desc" class="text-xs text-indigo-400 mt-0.5 font-medium">ระดับ: A1</p>
           </div>
-          <button id="btn-close-setup-modal" onclick="Quiz.closeSetup()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none" aria-label="ปิดหน้าต่างตั้งค่า (Escape)">
+          <button id="btn-close-setup-modal" onclick="Quiz.closeSetup()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none" aria-label="ปิดหน้าต่างตั้งค่า">
             ✕
           </button>
         </div>
@@ -451,7 +451,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" role="radiogroup" aria-label="เลือกรูปแบบคำถาม">
             <button type="button" onclick="Quiz.setQuestionFormat('mixed')" id="btn-mode-mixed" class="btn-mode p-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold border border-indigo-500 text-left focus:outline-none" aria-checked="true" role="radio">
               <span class="block text-sm" aria-hidden="true">🎲</span>
-              ผสมทุกแบบ (แนะนำ)
+              ผสมทุกแบบ
             </button>
             <button type="button" onclick="Quiz.setQuestionFormat('eng_to_th')" id="btn-mode-eng_to_th" class="btn-mode p-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700 text-left focus:outline-none hover:bg-slate-700" aria-checked="false" role="radio">
               <span class="block text-sm" aria-hidden="true">🔤</span>
@@ -464,16 +464,11 @@
           </div>
         </div>
 
-        <!-- Accessible Hint Info -->
-        <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-400">
-          💡 <strong>คีย์ลัด:</strong> กด <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Enter</kbd> เพื่อเริ่มทันที หรือกด <kbd class="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200 font-mono">Esc</kbd> เพื่อยกเลิก
-        </div>
-
         <div class="flex items-center justify-end gap-3 pt-2">
           <button type="button" onclick="Quiz.closeSetup()" class="px-4 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 text-xs font-bold focus:outline-none">
-            ยกเลิก (Esc)
+            ยกเลิก
           </button>
-          <button type="button" id="btn-setup-start-confirm" onclick="Quiz.startSession()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-amber-500 hover:from-indigo-500 hover:to-amber-400 text-white text-xs font-bold shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เริ่มทำแบบทดสอบ (Enter)">
+          <button type="button" id="btn-setup-start-confirm" onclick="Quiz.startSession()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-amber-500 hover:from-indigo-500 hover:to-amber-400 text-white text-xs font-bold shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="เริ่มทำแบบทดสอบ">
             เริ่มเลย 🚀
           </button>
         </div>
@@ -491,7 +486,7 @@
       <div class="flex items-center justify-between gap-3 bg-slate-800/80 p-3.5 rounded-2xl border border-slate-700/80 shadow-md">
         
         <!-- Exit Quiz Button -->
-        <button onclick="Quiz.exitQuiz()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="ออกจากแบบทดสอบกลับหน้าหลัก (Escape)" title="ออกจากแบบทดสอบ">
+        <button onclick="Quiz.exitQuiz()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="ออกจากแบบทดสอบ" title="ออกจากแบบทดสอบ">
           <span aria-hidden="true">✕</span> ออก
         </button>
 
@@ -538,33 +533,33 @@
             ability
           </h2>
           
-          <!-- Phonetic Reading & IPA (with Screen Reader friendly label) -->
+          <!-- Phonetic Reading & IPA -->
           <div id="quiz-target-phonetics" class="flex items-center justify-center gap-3 text-sm text-slate-400">
-            <span id="quiz-target-reading" class="text-amber-300 font-medium text-base" lang="th" aria-label="คำอ่านออกเสียงภาษาไทย: เออะ บิ้ เหลอะ ที">เออะ บิ้ เหลอะ ที</span>
+            <span id="quiz-target-reading" class="text-amber-300 font-medium text-base" lang="th">เออะ บิ้ เหลอะ ที</span>
             <span class="text-slate-600" aria-hidden="true">•</span>
-            <span id="quiz-target-ipa" class="font-mono text-slate-400 text-xs" lang="en" aria-label="สัทอักษรสากล IPA: ʌbˈɪlʌtˌiː">/ʌbˈɪlʌtˌiː/</span>
+            <span id="quiz-target-ipa" class="font-mono text-slate-400 text-xs" lang="en">/ʌbˈɪlʌtˌiː/</span>
           </div>
         </div>
 
         <!-- Interactive Audio, Re-Read & Hint Controls -->
         <div class="flex items-center justify-center gap-2 sm:gap-3 pt-2 flex-wrap">
           
-          <!-- Re-read / Re-announce Question Button -->
-          <button id="btn-quiz-reannounce" onclick="Quiz.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์และตัวเลือกซ้ำทั้งหมด (คีย์ลัด Q)">
+          <!-- Re-read Question Button -->
+          <button id="btn-quiz-reannounce" type="button" accesskey="q" onclick="Quiz.reannounceQuestion()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="อ่านโจทย์ซ้ำ">
             <span aria-hidden="true">📢</span>
-            <span>อ่านโจทย์ซ้ำ (Q)</span>
+            <span>อ่านโจทย์ซ้ำ</span>
           </button>
 
           <!-- Audio Pronunciation Button (Hidden in th_to_eng to prevent answer spoiler) -->
-          <button id="btn-quiz-speak" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่านคำศัพท์ (คีย์ลัด R)">
+          <button id="btn-quiz-speak" type="button" accesskey="r" onclick="Quiz.speakCurrentWord()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-slate-900 border border-amber-500/40 text-xs sm:text-sm font-bold shadow-md focus:outline-none transition-all active:scale-95" aria-label="ฟังเสียงอ่าน">
             <span id="quiz-speak-icon" class="text-base" aria-hidden="true">🔊</span>
-            <span id="quiz-speak-label">ฟังเสียง (R)</span>
+            <span id="quiz-speak-label">ฟังเสียงอ่าน</span>
           </button>
 
           <!-- Hint Button -->
-          <button id="btn-quiz-hint" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้ประเภทคำและความหมายย่อย (คีย์ลัด H)">
+          <button id="btn-quiz-hint" type="button" accesskey="h" onclick="Quiz.toggleHint()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 text-xs font-medium focus:outline-none transition-all" aria-label="ดูคำใบ้">
             <span aria-hidden="true">💡</span>
-            <span>คำใบ้ (H)</span>
+            <span>คำใบ้</span>
           </button>
 
         </div>
@@ -576,14 +571,9 @@
 
       </article>
 
-      <!-- 4 Multiple Choice Options (WAI-ARIA Radio Group with Arrow Key Navigation) -->
-      <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="ตัวเลือกคำตอบ 4 ข้อ (ใช้ปุ่มลูกศรขึ้น/ลง เพื่อเลื่อนตัวเลือก หรือกดเลข 1 ถึง 4 เพื่อตอบ)">
+      <!-- 4 Multiple Choice Options (WAI-ARIA Radio Group) -->
+      <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="ตัวเลือกคำตอบ">
         <!-- Dynamically rendered options -->
-      </div>
-
-      <!-- In-Quiz Keyboard Help Bar -->
-      <div class="p-2.5 rounded-xl bg-slate-800/40 border border-slate-700/40 text-center text-xs text-slate-400">
-        ⌨️ <strong>คีย์ลัด:</strong> <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">↑</kbd><kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">↓</kbd> เปลี่ยนตัวเลือก • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">1</kbd>-<kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">4</kbd> เลือกข้อ • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">Q</kbd> ฟังโจทย์ซ้ำ • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">R</kbd> ฟังเสียง • <kbd class="px-1 py-0.5 bg-slate-800 rounded font-mono text-slate-300">Enter</kbd> ตอบ/ไปต่อ
       </div>
 
       <!-- Instant Feedback & Explanation Panel (Shown upon answering) -->
@@ -600,10 +590,9 @@
             </div>
           </div>
           
-          <button id="btn-quiz-next" onclick="Quiz.nextQuestion()" class="px-5 py-2.5 rounded-xl bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center gap-1.5 flex-shrink-0" aria-label="ไปข้อถัดไป (คีย์ลัด Enter)">
+          <button id="btn-quiz-next" type="button" accesskey="n" onclick="Quiz.nextQuestion()" class="px-5 py-2.5 rounded-xl bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center gap-1.5 flex-shrink-0" aria-label="ไปข้อถัดไป">
             <span>ข้อถัดไป</span>
             <span aria-hidden="true">➔</span>
-            <kbd class="hidden sm:inline px-1 py-0.5 bg-slate-200 text-slate-800 rounded text-[10px] font-mono">Enter</kbd>
           </button>
         </div>
 
@@ -615,7 +604,7 @@
               <span id="fb-detail-pos" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-normal">n.</span>
               <span class="text-amber-400 font-normal" id="fb-detail-reading" lang="th">เออะ บิ้ เหลอะ ที</span>
             </div>
-            <button onclick="AudioSys.speakWord(document.getElementById('fb-detail-word').textContent)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1" aria-label="ฟังเสียงอ่านคำศัพท์นี้">
+            <button type="button" onclick="AudioSys.speakWord(document.getElementById('fb-detail-word').textContent)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1" aria-label="ฟังเสียงอ่าน">
               🔊 ฟังเสียง
             </button>
           </div>
@@ -667,7 +656,7 @@
         <!-- Mistakes List in this session (if any) -->
         <div id="summary-mistakes-section" class="text-left space-y-2 pt-2 border-t border-slate-700/60" style="display: none;">
           <h3 class="text-xs font-bold text-rose-300 flex items-center gap-1.5" lang="th">
-            <span>🎯</span> คำที่ตอบผิดในรอบนี้ (ถูกบันทึกลงคลังคำผิดแล้ว):
+            <span>🎯</span> คำที่ตอบผิดในรอบนี้:
           </h3>
           <div id="summary-mistakes-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1 text-xs">
             <!-- Dynamically populated -->
@@ -716,7 +705,7 @@
         <!-- Select Tier for Speed Run -->
         <div class="space-y-2 text-left max-w-md mx-auto">
           <label class="block text-xs font-bold text-slate-300">เลือกระดับคำศัพท์:</label>
-          <div class="grid grid-cols-5 gap-1.5" role="radiogroup" aria-label="เลือกระดับความยากสำหรับโหมดจับเวลา">
+          <div class="grid grid-cols-5 gap-1.5" role="radiogroup" aria-label="เลือกระดับความยาก">
             <button onclick="SpeedRun.setTier('ALL')" id="btn-speed-ALL" class="btn-speed-tier p-2 rounded-xl bg-orange-600 text-white text-xs font-bold border border-orange-500 text-center focus:outline-none" aria-checked="true" role="radio">คละทุกระดับ</button>
             <button onclick="SpeedRun.setTier('A1')" id="btn-speed-A1" class="btn-speed-tier p-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700 text-center focus:outline-none hover:bg-slate-700" aria-checked="false" role="radio">A1</button>
             <button onclick="SpeedRun.setTier('A2')" id="btn-speed-A2" class="btn-speed-tier p-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700 text-center focus:outline-none hover:bg-slate-700" aria-checked="false" role="radio">A2</button>
@@ -726,7 +715,7 @@
         </div>
 
         <div class="pt-4">
-          <button onclick="SpeedRun.start()" class="w-full max-w-xs px-8 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-extrabold text-sm sm:text-base shadow-xl focus:outline-none transition-transform active:scale-95" aria-label="เริ่มการแข่งขันจับเวลา 60 วินาที">
+          <button onclick="SpeedRun.start()" class="w-full max-w-xs px-8 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-extrabold text-sm sm:text-base shadow-xl focus:outline-none transition-transform active:scale-95" aria-label="เริ่มจับเวลา">
             เริ่มจับเวลาทันที ⚡
           </button>
         </div>
@@ -740,14 +729,14 @@
       
       <!-- Top HUD with Timer -->
       <div class="flex items-center justify-between gap-4 bg-slate-800/90 p-4 rounded-2xl border border-orange-500/40 shadow-lg">
-        <button onclick="SpeedRun.exit()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="หยุดและออกจากโหมดจับเวลา">
+        <button onclick="SpeedRun.exit()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none" aria-label="ออกจากโหมดจับเวลา">
           ✕ ยอมแพ้
         </button>
 
         <!-- Giant Countdown Timer -->
         <div class="flex items-center gap-2">
           <span class="text-xl" aria-hidden="true">⏱️</span>
-          <div id="speed-timer-display" class="text-2xl sm:text-3xl font-black font-mono text-orange-400" aria-live="assertive" aria-label="เวลาที่เหลือ 60 วินาที">
+          <div id="speed-timer-display" class="text-2xl sm:text-3xl font-black font-mono text-orange-400" aria-live="assertive" aria-label="เวลาที่เหลือ">
             60s
           </div>
         </div>
@@ -797,7 +786,7 @@
           </p>
         </div>
 
-        <button id="btn-start-mistake-quiz" onclick="Mistakes.startQuiz()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap" aria-label="เริ่มทำแบบทดสอบทบทวนคำที่ตอบผิด">
+        <button id="btn-start-mistake-quiz" onclick="Mistakes.startQuiz()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold shadow-lg focus:outline-none transition-transform active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap" aria-label="เริ่มทำแบบทดสอบคำที่ตอบผิด">
           <span>เริ่มฝึกคำผิด</span> 🚀
         </button>
       </div>
@@ -1001,19 +990,6 @@
             </div>
             <input type="checkbox" id="settings-high-contrast" onchange="App.toggleHighContrast(this.checked)" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
           </div>
-
-          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-700/60 text-slate-300 space-y-1.5 text-xs">
-            <div class="font-bold text-amber-300">📌 คีย์ลัดสำหรับการเข้าถึง (Keyboard Shortcuts):</div>
-            <ul class="list-disc list-inside space-y-1 text-slate-300 leading-relaxed">
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">↑</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">↓</kbd> หรือ <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">→</kbd>: เลื่อนตัวเลือกคำตอบ</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">1</kbd> - <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">4</kbd> หรือ <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">A</kbd> - <kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">D</kbd>: เลือกข้อคำตอบโดยตรง</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Q</kbd>: อ่านโจทย์และตัวเลือกซ้ำทั้งหมด (Re-read Question)</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">R</kbd>: ฟังเสียงอ่านคำศัพท์ภาษาอังกฤษ</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">H</kbd>: เปิด/ปิด คำใบ้</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Enter</kbd>: ยืนยันคำตอบ / ไปข้อถัดไป / เริ่มทำแบบทดสอบ</li>
-              <li><kbd class="px-1.5 py-0.5 bg-slate-800 rounded font-mono text-amber-300">Esc</kbd>: ปิดหน้าต่าง / ออกจากแบบทดสอบ</li>
-            </ul>
-          </div>
         </div>
       </div>
 
@@ -1126,24 +1102,26 @@
     };
 
     /* =========================================================================
-       2. SCREEN READER ANNOUNCER (ARIA LIVE)
+       2. SCREEN READER ANNOUNCER (NVDA-COMPLIANT ALERT & LIVE REGIONS)
        ========================================================================= */
     const Announcer = {
       politeEl: null,
       assertiveEl: null,
+      nonce: 0,
 
       init() {
         this.politeEl = document.getElementById('sr-announcer-polite');
         this.assertiveEl = document.getElementById('sr-announcer-assertive');
       },
 
-      speak(text, priority = 'polite') {
+      speak(text, priority = 'assertive') {
         const el = priority === 'assertive' ? this.assertiveEl : this.politeEl;
         if (!el) return;
+        this.nonce += 1;
         el.textContent = '';
         setTimeout(() => {
           el.textContent = text;
-        }, 50);
+        }, 40);
       }
     };
 
@@ -1525,7 +1503,7 @@
               this.save();
               this.applySettings();
               App.updateHeaderStats();
-              alert(`กู้คืนข้อมูลสำเร็จ! ยินดีต้อนรับกลับ ${this.state.user.name} (XP รวม: ${this.state.user.totalXP})`);
+              alert(`กู้คืนข้อมูลสำเร็จ! ยินดีต้อนรับกลับ ${this.state.user.name}`);
               Announcer.speak('นำเข้าข้อมูลสำรองสำเร็จแล้ว');
               App.navigate('home');
             } else {
@@ -1547,7 +1525,7 @@
     };
 
     /* =========================================================================
-       5. QUIZ ENGINE (ACCESSIBLE RADIO GROUP, ANTI-SPOILER, RE-READ)
+       5. QUIZ ENGINE (CLEAN LABELS, ANTI-SPOILER, ARROW KEYS & ACCESSKEYS)
        ========================================================================= */
     const Quiz = {
       tier: 'A1',
@@ -1578,7 +1556,7 @@
         this.triggerElement = triggerBtn || document.activeElement;
         this.isModalOpen = true;
 
-        const tierName = tier === 'ALL' ? 'คละทุกระดับ (A1–B2 รวม 3,146 คำ)' : `ระดับ: ${tier}`;
+        const tierName = tier === 'ALL' ? 'คละทุกระดับ' : `ระดับ: ${tier}`;
         document.getElementById('setup-modal-tier-desc').textContent = tierName;
         
         this.setWordCount(this.wordCount);
@@ -1595,7 +1573,7 @@
           if (title) title.focus();
         }, 50);
 
-        Announcer.speak(`เปิดหน้าต่างตั้งค่าสำหรับ ${tierName}. กด Enter เพื่อเริ่มทันที หรือกด Tab เพื่อปรับการตั้งค่า`, 'assertive');
+        Announcer.speak(`เปิดหน้าต่างตั้งค่าสำหรับ ${tierName}`);
       },
 
       closeSetup() {
@@ -1764,7 +1742,7 @@
         options.sort(() => 0.5 - Math.random());
         this.currentQuestion.options = options;
 
-        // Render Option Buttons with WAI-ARIA Radio Group & Roving Tabindex
+        // Render Option Buttons with clean labels and accesskeys
         const optionsContainer = document.getElementById('quiz-options-container');
         optionsContainer.innerHTML = '';
         const optionKeys = ['1', '2', '3', '4'];
@@ -1774,21 +1752,21 @@
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.id = `quiz-opt-${idx}`;
+          btn.setAttribute('accesskey', optionKeys[idx]);
           btn.className = `game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-indigo-500 text-white font-medium text-left flex items-center justify-between gap-3 shadow-lg focus:outline-none transition-all`;
           btn.setAttribute('role', 'radio');
           btn.setAttribute('aria-checked', idx === 0 ? 'true' : 'false');
           btn.tabIndex = idx === 0 ? 0 : -1;
-          btn.setAttribute('aria-label', `ตัวเลือกที่ ${idx + 1}: ${opt.text} (กด ${idx + 1})`);
+          // Clean label: Option letter + text (no verbose boilerplate)
+          btn.setAttribute('aria-label', `${optionLetters[idx]}. ${opt.text}`);
           
           btn.innerHTML = `
             <div class="flex items-center gap-3">
               <span class="w-7 h-7 rounded-lg bg-slate-800 text-indigo-400 font-mono font-bold text-xs flex items-center justify-center border border-slate-700" aria-hidden="true">${optionLetters[idx]}</span>
               <span class="text-sm sm:text-base font-semibold" lang="${opt.lang}">${opt.text}</span>
             </div>
-            <kbd class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono border border-slate-700" aria-hidden="true">${optionKeys[idx]}</kbd>
           `;
 
-          // Click / Enter / Space handler
           btn.onclick = () => this.handleAnswer(idx);
 
           // Arrow Key Navigation between Radios
@@ -1805,12 +1783,12 @@
           optionsContainer.appendChild(btn);
         });
 
-        // Auto-play pronunciation only in eng_to_th or listening (NEVER in th_to_eng!)
+        // Auto-play pronunciation only in eng_to_th or listening
         if (AudioSys.autoPlaySpeech && (qType === 'eng_to_th' || qType === 'listening')) {
           setTimeout(() => AudioSys.speakWord(target.word), 300);
         }
 
-        // Announce question to Screen Reader
+        // Announce clean question text
         this.reannounceQuestion();
 
         // Initial focus routing to first option
@@ -1820,7 +1798,7 @@
         }, 80);
       },
 
-      /* Arrow Key Roving Tabindex in Radio Group */
+      /* Arrow Key Navigation in Radio Group */
       focusOption(newIdx) {
         if (this.answered) return;
         this.focusedOptionIndex = newIdx;
@@ -1837,27 +1815,26 @@
         }
       },
 
-      /* Re-hear / Re-announce Question (Shortcut: Q) */
+      /* Re-hear / Re-announce Question */
       reannounceQuestion() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const target = this.currentQuestion.target;
         const qType = this.currentQuestion.type;
         const opts = this.currentQuestion.options;
 
-        let text = `ข้อที่ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
+        let text = `ข้อ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
         if (qType === 'eng_to_th') {
-          text += `คำว่า "${target.word}", ประเภทคำ ${target.pos_raw}, ความหมายคืออะไร. `;
+          text += `${target.word}, ${target.pos_raw}. `;
         } else if (qType === 'th_to_eng') {
-          text += `ความหมาย "${target.meaning}", ประเภทคำ ${target.pos_raw}, คำศัพท์ภาษาอังกฤษคืออะไร. `;
+          text += `ความหมาย: ${target.meaning}, ${target.pos_raw}. `;
         } else {
-          text += `โหมดฟังเสียง, เลือกคำศัพท์ภาษาอังกฤษที่ตรงกับการออกเสียง. `;
+          text += `โหมดฟังเสียง. `;
         }
 
         opts.forEach((o, i) => {
-          text += `ตัวเลือกที่ ${i + 1}: ${o.text}. `;
+          const letters = ['A', 'B', 'C', 'D'];
+          text += `${letters[i]}: ${o.text}. `;
         });
-
-        text += `(กดลูกศรขึ้นหรือลงเพื่อเปลี่ยนตัวเลือก, หรือกดเลข 1 ถึง 4 เพื่อตอบ)`;
 
         Announcer.speak(text, 'assertive');
 
@@ -1917,7 +1894,7 @@
           feedbackTitle.textContent = 'ถูกต้อง! ยอดเยี่ยมมาก';
           feedbackSubtitle.textContent = `+${xpGained} XP ${this.currentCombo >= 3 ? `(🔥 คอมโบ ${this.currentCombo}x)` : ''}`;
 
-          Announcer.speak(`ถูกต้อง! ได้รับ ${xpGained} XP, คำตอบคือ ${target.word} แปลว่า ${target.meaning}`, 'assertive');
+          Announcer.speak(`ถูกต้อง! ${target.word} แปลว่า ${target.meaning}`, 'assertive');
         } else {
           this.currentCombo = 0;
           this.sessionMistakes.push(target);
@@ -1930,7 +1907,7 @@
           feedbackTitle.textContent = 'ตอบผิด คำตอบที่ถูกต้องคือ:';
           feedbackSubtitle.textContent = `${target.word} แปลว่า "${target.meaning}"`;
 
-          Announcer.speak(`ตอบผิด! คำตอบที่ถูกต้องคือ ${target.word} หมายถึง ${target.meaning}`, 'assertive');
+          Announcer.speak(`ตอบผิด! คำตอบคือ ${target.word} แปลว่า ${target.meaning}`, 'assertive');
         }
 
         // Detail breakdown
@@ -1953,16 +1930,15 @@
         this.renderQuestion();
       },
 
-      /* Speak target word (Guarded against spoiler in th_to_eng) */
+      /* Speak target word */
       speakCurrentWord() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const qType = this.currentQuestion.type;
         if (qType === 'th_to_eng' && !this.answered) {
-          Announcer.speak('โหมดความหมายภาษาไทย ไม่สามารถฟังเสียงอ่านคำศัพท์ภาษาอังกฤษได้ก่อนตอบ เพื่อไม่ให้เป็นการเฉลย', 'assertive');
+          Announcer.speak('โหมดความหมายภาษาไทย ฟังเสียงอ่านได้หลังตอบ');
           return;
         }
         AudioSys.speakWord(this.currentQuestion.target.word);
-        Announcer.speak(`กำลังเล่นเสียงอ่านคำว่า ${this.currentQuestion.target.word}`);
       },
 
       toggleHint() {
@@ -2100,7 +2076,7 @@
           if (this.timeLeft <= 0) {
             this.end();
           } else if (this.timeLeft === 10 || this.timeLeft === 5) {
-            Announcer.speak(`เหลือเวลา ${this.timeLeft} วินาที`, 'assertive');
+            Announcer.speak(`เหลือเวลา ${this.timeLeft} วินาที`);
           }
         }, 1000);
 
@@ -2140,6 +2116,7 @@
         container.innerHTML = '';
         options.forEach((opt, idx) => {
           const btn = document.createElement('button');
+          btn.type = 'button';
           btn.className = 'game-card p-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-orange-500 text-white font-semibold text-left text-sm sm:text-base focus:outline-none';
           btn.innerHTML = `<span class="text-orange-400 font-mono mr-1.5">${idx + 1}.</span> <span lang="${opt.lang}">${opt.text}</span>`;
           btn.onclick = () => this.handleAnswer(opt.isCorrect);
@@ -2160,7 +2137,7 @@
 
           if (this.combo % 5 === 0) {
             this.timeLeft += 3;
-            Announcer.speak(`คอมโบ ${this.combo} ข้อติด! ได้รับโบนัส +3 วินาที`, 'assertive');
+            Announcer.speak(`คอมโบ ${this.combo} ข้อ! เพิ่มเวลา 3 วินาที`);
           }
         } else {
           this.combo = 0;
@@ -2179,7 +2156,7 @@
           StorageSys.save();
         }
 
-        alert(`หมดเวลา! คุณทำคะแนนได้: ${this.score} คะแนน (สถิติสูงสุด: ${StorageSys.state.highScoreSpeed})`);
+        alert(`หมดเวลา! คุณทำคะแนนได้: ${this.score} คะแนน`);
         Announcer.speak(`หมดเวลา การแข่งขันสิ้นสุด ได้คะแนน ${this.score}`);
         App.navigate('home');
       },
@@ -2232,10 +2209,10 @@
               <p class="text-xs text-slate-300 mt-1 font-medium" lang="th">${word.meaning}</p>
             </div>
             <div class="pt-2 border-t border-slate-700/60 flex items-center justify-between">
-              <button onclick="AudioSys.speakWord('${word.word}')" class="p-1.5 rounded-lg bg-slate-700 text-slate-300 hover:text-white" aria-label="ฟังเสียงคำว่า ${word.word}">
+              <button onclick="AudioSys.speakWord('${word.word}')" class="p-1.5 rounded-lg bg-slate-700 text-slate-300 hover:text-white" aria-label="ฟังเสียง">
                 🔊
               </button>
-              <button onclick="Mistakes.removeSingle(${word.id})" class="text-xs text-slate-400 hover:text-rose-400 p-1" aria-label="ลบคำว่า ${word.word} ออกจากคลังคำผิด">
+              <button onclick="Mistakes.removeSingle(${word.id})" class="text-xs text-slate-400 hover:text-rose-400 p-1" aria-label="ลบออกจากคลังคำผิด">
                 ลบออก
               </button>
             </div>
@@ -2382,10 +2359,10 @@
             </div>
 
             <div class="pt-2 border-t border-slate-700/60 flex items-center justify-between">
-              <button onclick="AudioSys.speakWord('${w.word}')" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium flex items-center gap-1 focus:outline-none" aria-label="ฟังเสียงอ่านคำว่า ${w.word}">
+              <button onclick="AudioSys.speakWord('${w.word}')" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium flex items-center gap-1 focus:outline-none" aria-label="ฟังเสียง">
                 🔊 ฟังเสียง
               </button>
-              <button onclick="Dict.toggleBookmark(${w.id})" class="p-1.5 rounded-lg text-sm ${isBm ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'} focus:outline-none" aria-label="${isBm ? 'ยกเลิกติดดาว' : 'ติดดาว'} คำว่า ${w.word}">
+              <button onclick="Dict.toggleBookmark(${w.id})" class="p-1.5 rounded-lg text-sm ${isBm ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'} focus:outline-none" aria-label="${isBm ? 'ยกเลิกติดดาว' : 'ติดดาว'}">
                 ${isBm ? '★' : '☆'}
               </button>
             </div>
@@ -2446,7 +2423,7 @@
     };
 
     /* =========================================================================
-       10. APP LIFECYCLE & VIEW ROUTER & ACCESSIBLE FOCUS TRAP
+       10. APP LIFECYCLE & VIEW ROUTER & KEYBOARD SHORTCUTS
        ========================================================================= */
     const App = {
       currentView: 'home',
@@ -2586,37 +2563,37 @@
 
           // In Quiz Arena
           if (this.currentView === 'quiz' && document.getElementById('view-quiz').style.display !== 'none') {
-            
+            const keyLower = e.key.toLowerCase();
+
             // 1-4 or A-D: Choose option directly
             if (['1', '2', '3', '4'].includes(e.key)) {
               e.preventDefault();
               const idx = parseInt(e.key) - 1;
               Quiz.handleAnswer(idx);
               return;
-            } else if (['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'].includes(e.key)) {
+            } else if (['a', 'b', 'c', 'd'].includes(keyLower)) {
               e.preventDefault();
               const map = { a: 0, b: 1, c: 2, d: 3 };
-              const idx = map[e.key.toLowerCase()];
-              Quiz.handleAnswer(idx);
+              Quiz.handleAnswer(map[keyLower]);
               return;
             }
 
-            // Q or Alt+Q: Re-read / Re-announce Question & choices
-            if (e.key === 'q' || e.key === 'Q') {
+            // Q: Re-read Question & choices
+            if (keyLower === 'q') {
               e.preventDefault();
               Quiz.reannounceQuestion();
               return;
             }
 
-            // R or Alt+R: Play English pronunciation
-            if (e.key === 'r' || e.key === 'R') {
+            // R: Play English pronunciation
+            if (keyLower === 'r') {
               e.preventDefault();
               Quiz.speakCurrentWord();
               return;
             }
 
-            // H or Alt+H: Toggle hint
-            if (e.key === 'h' || e.key === 'H') {
+            // H: Toggle hint
+            if (keyLower === 'h') {
               e.preventDefault();
               Quiz.toggleHint();
               return;
