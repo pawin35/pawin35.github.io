@@ -1820,31 +1820,25 @@
         }
       },
 
-      /* Re-hear / Re-announce Question (0 focus movement!) */
+      /* Re-hear / Re-announce Question (0 focus movement, question prompt only) */
       reannounceQuestion() {
         if (!this.currentQuestion || !this.currentQuestion.target) return;
         const target = this.currentQuestion.target;
         const qType = this.currentQuestion.type;
-        const opts = this.currentQuestion.options;
 
-        let text = `ข้อ ${this.currentIndex + 1} จาก ${this.queue.length}: `;
+        let text = `ข้อ ${this.currentIndex + 1}: `;
         if (qType === 'eng_to_th') {
-          text += `${target.word}, ${target.pos_raw}. `;
+          text += `${target.word}, ${target.pos_raw}`;
         } else if (qType === 'th_to_eng') {
-          text += `ความหมาย: ${target.meaning}, ${target.pos_raw}. `;
+          text += `${target.meaning}, ${target.pos_raw}`;
         } else {
-          text += `โหมดฟังเสียง. `;
+          text += `ฟังเสียงอ่านคำศัพท์`;
         }
-
-        opts.forEach((o, i) => {
-          const letters = ['A', 'B', 'C', 'D'];
-          text += `${letters[i]}: ${o.text}. `;
-        });
 
         Announcer.speak(text, 'assertive');
 
         if (qType === 'eng_to_th' || qType === 'listening') {
-          setTimeout(() => AudioSys.speakWord(target.word), 400);
+          setTimeout(() => AudioSys.speakWord(target.word), 350);
         }
       },
 
